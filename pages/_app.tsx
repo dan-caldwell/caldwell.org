@@ -3,7 +3,7 @@ import DefaultLayout from '../components/layouts/DefaultLayout';
 import NavProvider from '../context/NavContext';
 import '../styles/globals.css';
 
-function MyApp({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
   return (
     <NavProvider>
       <DefaultLayout>
@@ -13,4 +13,4 @@ function MyApp({ Component, pageProps }: AppProps) {
   )
 }
 
-export default MyApp
+export default App;

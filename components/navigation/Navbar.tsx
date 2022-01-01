@@ -1,6 +1,7 @@
 import { useContext, useEffect } from "react";
 import { NavContext } from "../../context/NavContext";
 import Head from "next/head";
+import Link from 'next/link';
 import { useRouter } from "next/router";
 import { NavigationProps } from "../../server-utils/navigation";
 
@@ -14,7 +15,7 @@ const Navbar: React.FC<NavbarProps> = ({ list }) => {
 
     useEffect(() => {
         setCurrentPost(router.pathname);
-    }, []);
+    }, [router.pathname, setCurrentPost]);
 
     return (
         <>
@@ -26,8 +27,13 @@ const Navbar: React.FC<NavbarProps> = ({ list }) => {
             <div>
                 {list.map(proj => (
                     <div key={proj.category}>
-                        {proj.category}{proj.projects.map(slug => (
-                            <span key={slug} className={currentPost === `/projects/code/${slug}` ? 'bg-red-500' : ''}> - {slug}</span>
+                        {proj.projects.map(slug => (
+                            <Link key={slug} prefetch={false} href={`/projects/${proj.category}/${slug}`}>
+                                <a className={currentPost === `/projects/${proj.category}/${slug}` ? 'bg-red-500' : ''}>
+                                    {slug}
+                                </a>
+                            </Link>
+
                         ))}
                     </div>
                 ))}
