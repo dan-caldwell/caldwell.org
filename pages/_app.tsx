@@ -1,8 +1,16 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import type { AppProps } from 'next/app';
+import DefaultLayout from '../components/layouts/DefaultLayout';
+import NavProvider from '../context/NavContext';
+import '../styles/globals.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  return (
+    <NavProvider>
+      <DefaultLayout>
+        <Component {...pageProps} />
+      </DefaultLayout>
+    </NavProvider>
+  )
 }
 
 export default MyApp
