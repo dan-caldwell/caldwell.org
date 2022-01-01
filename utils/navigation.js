@@ -1,23 +1,8 @@
-import fs from 'fs-extra';
-import path from 'path';
-
-export type NavigationProps = {
-    category: string,
-    projects: ProjectMeta[]
-}
-
-export type ProjectMeta = {
-    slug: string,
-    title?: string,
-    date?: string
-}
-
-export type PageNavProps = {
-    postList: NavigationProps[]
-}
+const fs = require('fs-extra');
+const path = require('path');
 
 // Get the list of posts
-export const getPostList = () => {
+const getPostList = () => {
     const projectCategories = fs.readdirSync(path.join('pages/projects'));
     return projectCategories.map(category => {
         const catProjects = fs.readdirSync(path.join(`pages/projects/${category}`));
@@ -39,4 +24,8 @@ export const getPostList = () => {
             projects: withMeta
         }
     });
+}
+
+module.exports = {
+    getPostList
 }

@@ -1,9 +1,9 @@
-const TopSites = () => {
+import meta from './meta.json';
 
+export default function Index() {
     return (
-        <div>Top Sites</div>
+        <div>
+            <div>{meta.title}</div>
+        </div>
     )
-
 }
-
-export default TopSites;

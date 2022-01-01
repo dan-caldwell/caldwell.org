@@ -1,7 +1,13 @@
 import Head from "next/head";
-import Link from 'next/link';
 import { useRouter } from "next/router";
-import { NavigationProps } from "../../server-utils/navigation";
+import { ProjectMeta } from "../../utils/types";
+import LogoHeader from "./LogoHeader";
+import PostNavLink from "./PostNavLink";
+
+export type NavigationProps = {
+    category: string,
+    projects: ProjectMeta[]
+}
 
 type NavbarProps = {
     list: NavigationProps[]
@@ -17,19 +23,27 @@ const Navbar: React.FC<NavbarProps> = ({ list }) => {
                 <meta name="description" content="Dan Caldwell" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <div>
-                {list.map(proj => (
-                    <div key={proj.category}>
-                        {proj.projects.map(projectData => (
-                            <Link key={projectData.slug} prefetch={false} href={`/projects/${proj.category}/${projectData.slug}`}>
-                                <a className={router.pathname === `/projects/${proj.category}/${projectData.slug}` ? 'bg-red-500' : ''}>
-                                    {projectData.title || projectData.slug}
-                                </a>
-                            </Link>
-
-                        ))}
-                    </div>
-                ))}
+            <div className="w-navbar h-screen border-r border-slate-200">
+                <LogoHeader />
+                <div className="flex flex-col">
+                    {list.map(proj => (
+                        <div
+                            key={proj.category}
+                        >
+                            {proj.projects.map(projectData => (
+                                <PostNavLink
+                                    activePath={router.pathname}
+                                    slug={projectData.slug}
+                                    title={projectData.title}
+                                    thumbnail={projectData.thumbnail}
+                                    thumbnailBg={projectData.thumbnail_bg}
+                                    category={proj.category}
+                                    key={projectData.slug}
+                                />
+                            ))}
+                        </div>
+                    ))}
+                </div>
             </div>
         </>
     )

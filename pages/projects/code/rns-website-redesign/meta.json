@@ -1,4 +1,6 @@
 {
     "title": "RNS Website Re-design",
-    "date": "2021-12-31"
+    "date": "2021-12-31",
+    "thumbnail": "https://s3.amazonaws.com/caldwell.org/images/dan.wf-promos/thumbnail.svg",
+    "thumbnail_bg": "rose-900"
 }

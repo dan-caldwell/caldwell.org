@@ -1,8 +1,9 @@
+import meta from './meta.json';
 
-const UltraCSS = () => {
+export default function Index() {
     return (
-        <div>Ultra CSS</div>
+        <div>
+            <div>{meta.title}</div>
+        </div>
     )
 }
-
-export default UltraCSS;

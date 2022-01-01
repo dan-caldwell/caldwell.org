@@ -13,3 +13,15 @@ body {
 * {
   box-sizing: border-box;
 }
+
+@layer utilities {
+  .w-navbar {
+    width: 100%;
+  }
+}
+
+@screen xl {
+  .w-navbar {
+    @apply w-80;
+  }
+}

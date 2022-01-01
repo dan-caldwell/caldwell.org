@@ -1,3 +1,5 @@
 {
-    "title": "Top Sites"
+    "title": "Top Sites",
+    "thumbnail": "https://s3.amazonaws.com/caldwell.org/images/dan.wf-promos/thumbnail.svg",
+    "thumbnail_bg": "rose-900"
 }
