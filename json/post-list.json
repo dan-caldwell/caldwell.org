@@ -1,1 +1,1 @@
-"[{\"category\":\"code\",\"projects\":[\"rns-website-redesign\",\"top-sites\",\"ultracss\"]},{\"category\":\"video\",\"projects\":[\"exploiting-the-attention-economy\"]}]"
+"[{\"category\":\"code\",\"projects\":[{\"slug\":\"rns-website-redesign\",\"title\":\"RNS Website Re-design\",\"date\":\"2021-12-31\"},{\"slug\":\"top-sites\",\"title\":\"Top Sites\"},{\"slug\":\"ultracss\",\"title\":\"UltraCSS\"}]},{\"category\":\"video\",\"projects\":[{\"slug\":\"exploiting-the-attention-economy\"}]}]"

@@ -1,5 +1,3 @@
-import { useContext, useEffect } from "react";
-import { NavContext } from "../../context/NavContext";
 import Head from "next/head";
 import Link from 'next/link';
 import { useRouter } from "next/router";
@@ -10,12 +8,7 @@ type NavbarProps = {
 }
 
 const Navbar: React.FC<NavbarProps> = ({ list }) => {
-    const { currentPost, setCurrentPost } = useContext(NavContext);
     const router = useRouter();
-
-    useEffect(() => {
-        setCurrentPost(router.pathname);
-    }, [router.pathname, setCurrentPost]);
 
     return (
         <>
@@ -27,10 +20,10 @@ const Navbar: React.FC<NavbarProps> = ({ list }) => {
             <div>
                 {list.map(proj => (
                     <div key={proj.category}>
-                        {proj.projects.map(slug => (
-                            <Link key={slug} prefetch={false} href={`/projects/${proj.category}/${slug}`}>
-                                <a className={currentPost === `/projects/${proj.category}/${slug}` ? 'bg-red-500' : ''}>
-                                    {slug}
+                        {proj.projects.map(projectData => (
+                            <Link key={projectData.slug} prefetch={false} href={`/projects/${proj.category}/${projectData.slug}`}>
+                                <a className={router.pathname === `/projects/${proj.category}/${projectData.slug}` ? 'bg-red-500' : ''}>
+                                    {projectData.title || projectData.slug}
                                 </a>
                             </Link>
 
