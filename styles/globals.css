@@ -18,10 +18,26 @@ body {
   .w-navbar {
     width: 100%;
   }
+
+  .fill-black {
+    fill: black;
+    fill-opacity: 1;
+  }
+
+  .fill-semi-black {
+    fill: black;
+    fill-opacity: 0.5;
+  }
+
+  .transition-fill-opacity {
+    transition-property: fill-opacity;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
 }
 
 @screen xl {
   .w-navbar {
-    @apply w-80;
+    @apply w-72;
   }
 }

@@ -1,4 +1,4 @@
-const { getPostList } = require('./utils/navigation');
+const { getPostList } = require('./utils/post-metadata');
 
 // Get all the posts
 const postList = getPostList().reduce((total, item) => {
@@ -6,8 +6,11 @@ const postList = getPostList().reduce((total, item) => {
   return total;
 }, []).flat();
 
-// Get all the backgrounds in the post meta
-const safelistBgs = [...new Set(postList.map(item => `bg-${item.thumbnail_bg}`))];
+// Get all the thumbnail backgrounds in the post meta
+const safelistBgs = [...new Set(postList.map(item => item.thumbnail_bg ? `bg-${item.thumbnail_bg}` : null))];
+
+// Get all the thumbnail padding in the post meta
+const safelistThumbPadding = [...new Set(postList.map(item => item.thumbnail_padding ? `p-${item.thumbnail_padding}` : null))];
 
 module.exports = {
   content: [
@@ -17,9 +20,18 @@ module.exports = {
   theme: {
     extend: {},
   },
+  variants: {
+    extend: {
+      borderWidth: ['last'],
+      margin: ['last']
+    },
+  },
   plugins: [],
   safelist: [
     'bg-blue-900',
+    'p-1',
+    'pl-4',
+    ...safelistThumbPadding,
     ...safelistBgs
   ]
 }

@@ -5,4 +5,5 @@ export type ProjectMeta = {
     background?: string,
     thumbnail?: string,
     thumbnail_bg?: string,
+    thumbnail_padding?: number
 }

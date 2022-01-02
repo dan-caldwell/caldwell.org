@@ -15,7 +15,7 @@ const LeftSidebarLayout: React.FC<LeftSidebarLayoutProps> = ({ children }) => {
             className="flex"
         >
             <Navbar list={postList} />
-            <div className="flex-grow bg-slate-100 min-h-screen">
+            <div className="flex-grow bg-slate-50 min-h-screen">
                 {children}
             </div>
         </div>
