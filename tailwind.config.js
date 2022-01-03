@@ -31,6 +31,7 @@ module.exports = {
     'bg-blue-900',
     'p-1',
     'pl-4',
+    'pl-6',
     ...safelistThumbPadding,
     ...safelistBgs
   ]
