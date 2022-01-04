@@ -34,10 +34,33 @@ body {
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
   }
+
+  .leading-0 {
+    line-height: 0;
+  }
+
+  .translate-y-minus-50 {
+    transform: translateY(-50%);
+  }
+
+  .translate-y-minus-25 {
+    transform: translateY(-25%);
+  }
+
+  .w-container {
+    width: 100%;
+}
+
 }
 
 @screen xl {
+
   .w-navbar {
     @apply w-72;
   }
+
+  .w-container {
+    width: 50rem;
+  }
+
 }

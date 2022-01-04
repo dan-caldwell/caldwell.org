@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { ProjectMeta } from "../../utils/types";
 import LogoHeader from "./LogoHeader";
 import PostNavLink from "./PostNavLink";
-import { Dash, Plus } from "../icons/icons";
+import { CaretDown, CaretRight } from "../icons/icons";
 import Link from "next/link";
 
 export type NavigationProps = {
@@ -18,18 +18,11 @@ type NavbarProps = {
 
 const Navbar: React.FC<NavbarProps> = ({ list }) => {
     const [expandedSections, setExpandedSections] = useState(["projects"]);
-    const [collapsedCategories, setCollapsedCategories] = useState([]);
     const router = useRouter();
 
     const handleExpandProjects = () => {
         setExpandedSections(oldSections => {
             return pushRemoveFromArray('projects', oldSections);
-        });
-    }
-
-    const handleExpandCategory = (category: string) => {
-        setCollapsedCategories(oldCats => {
-            return pushRemoveFromArray(category, oldCats);
         });
     }
 
@@ -64,8 +57,6 @@ const Navbar: React.FC<NavbarProps> = ({ list }) => {
                                 >
                                     <CategoryLabel
                                         title={proj.category}
-                                        onClick={() => handleExpandCategory(proj.category)}
-                                        expanded={!collapsedCategories.includes(proj.category)}
                                     />
                                     {proj.projects.map(projectData => (
                                         <PostNavLink
@@ -102,7 +93,7 @@ const pushRemoveFromArray = (item: string, array: string[]) => {
 
 const ExpandableSectionLabel = ({ title, onClick, expanded }) => {
     const className = [
-        `pl-2 py-0.5 cursor-pointer bg-white hover:bg-purple-50 flex justify-between items-center fill-semi-black`,
+        `pl-2 py-0.5 cursor-pointer bg-white hover:bg-purple-50 fill-black h-auto flex items-center`,
         expanded ? 'border-b border-slate-300' : ''
     ].join(' ');
     return (
@@ -110,10 +101,10 @@ const ExpandableSectionLabel = ({ title, onClick, expanded }) => {
             className={className}
             onClick={onClick}
         >
-            <div>{title}</div>
-            <div className="w-3 h-3 mr-2 flex items-center justify-center">
-                {expanded ? <Dash /> : <Plus />}
-            </div>
+            <span className="text-3xl leading-0 mr-2 w-3 h-3">
+                {expanded ? <CaretDown /> : <CaretRight />}
+            </span>
+            <span>{title}</span>
         </div>
     )
 }
@@ -130,18 +121,12 @@ const LinkSectionLabel = ({
 
 const CategoryLabel = ({
     title,
-    onClick,
-    expanded
 }) => (
     <div
-        onClick={onClick}
-        className={`pl-4 py-0.5 text-xs border-b border-slate-300 bg-slate-100 cursor-pointer flex justify-between items-center`}
+        className={`pl-4 py-0.5 border-b border-slate-300 bg-slate-100 flex items-center`}
     >
-        <div>
+        <div className="text-xs">
             {title.charAt(0).toUpperCase() + title.slice(1)}
-        </div>
-        <div className="w-2 h-2 mr-2 flex items-center justify-center">
-            {expanded ? <Dash /> : <Plus />}
         </div>
     </div>
 )

@@ -1,4 +1,6 @@
+import React from "react";
 import { ProjectMeta } from "../../utils/types";
+import StandardWithTitle from "./StandardWithTitle";
 
 type Props = {
     children: React.ReactNode | React.ReactNode[],
@@ -13,15 +15,14 @@ const SlideshowContainer: React.FC<Props> = ({
     }
 }) => {
     const containerClassName = [
-        `SlideshowContainer h-full`,
+        `SlideshowContainer`,
         background ? `bg-${background}` : ''
     ].join(' ');
 
     return (
-        <div className={containerClassName}>
-            <div>{title}</div>
+        <StandardWithTitle className={containerClassName} title={title}>
             {children}
-        </div>
+        </StandardWithTitle>
     )
 }
 

@@ -1,5 +1,9 @@
+import StandardWithTitle from "../components/layouts/StandardWithTitle";
+
 export default function About() {
     return (
-        <div>About me</div>
+        <StandardWithTitle title="About">
+
+        </StandardWithTitle>
     )
 }
