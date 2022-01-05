@@ -49,7 +49,19 @@ body {
 
   .w-container {
     width: 100%;
-}
+  }
+
+  .snap-x-mandatory {
+    scroll-snap-type: x mandatory;
+  }
+
+  .snap-center {
+    scroll-snap-align: center;
+  }
+
+  .snap-stop-always {
+    scroll-snap-stop: always;
+  }
 
 }
 

@@ -1,28 +1,22 @@
 import React, { useRef, useState } from "react";
-import { ProjectMeta } from "../../utils/types";
 import NextPreviousButtons from "../slideshow/NextPreviousButtons";
 import ScrollProgress from "../slideshow/ScrollProgress";
-import Slide from "../slideshow/Slide";
-import StandardWithTitle from "./StandardWithTitle";
+import Slide from "./Slide";
 
 type Props = {
     children: React.ReactNode[],
-    meta: ProjectMeta
+    height: number
 }
 
-const SlideshowContainer: React.FC<Props> = ({
+const Slideshow: React.FC<Props> = ({
     children,
-    meta: {
-        title,
-        background
-    }
+    height = 0
 }) => {
     const [currentScrollItem, setCurrentScrollItem] = useState(0);
     const scrollContainer = useRef(null);
 
     const containerClassName = [
-        `SlideshowContainer`,
-        background ? `bg-${background}` : ''
+        `Slideshow`,
     ].join(' ');
 
     const handleNavigateSlide = (direction: 'next' | 'previous') => {
@@ -36,7 +30,9 @@ const SlideshowContainer: React.FC<Props> = ({
     }
 
     return (
-        <StandardWithTitle className={containerClassName} title={title}>
+        <div 
+            className={containerClassName}
+        >
             {children.length &&
                 <div className="flex justify-center border-t border-b border-gray-300 mb-4 py-1 sticky top-0 bg-white z-10">
                     <NextPreviousButtons currentItem={currentScrollItem + 1} totalItems={children.length} onNavigateSlide={handleNavigateSlide}>
@@ -47,12 +43,17 @@ const SlideshowContainer: React.FC<Props> = ({
             < div
                 className="flex-grow overflow-y-scroll w-container"
             >
-                <div className="relative h-full w-full">
+                <div 
+                    className="relative h-full w-full"
+                    style={{
+                        height: height + 'px'
+                    }}
+                >
                     <div
                         ref={scrollContainer}
-                        className="SlideshowContainer-OverflowContainer flex w-full h-full overflow-x-scroll snap-x-mandatory"
+                        className="Slideshow-OverflowContainer flex w-full h-full overflow-x-scroll snap-x-mandatory"
                     >
-                        {(Array.isArray(children) ? children : [children]).map((child, index) => (
+                        {(!children.length ? [children] : children).map((child, index) => (
                             <Slide
                                 key={index}
                                 className="snap-center snap-stop-always"
@@ -65,9 +66,9 @@ const SlideshowContainer: React.FC<Props> = ({
                         ))}
                     </div>
                 </div>
-            </div >
-        </StandardWithTitle>
+            </div>
+        </div>
     )
 }
 
-export default SlideshowContainer;
+export default Slideshow;
