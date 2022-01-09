@@ -9,6 +9,9 @@ const Image: React.FC<{
     captionPosition?: 'top' | 'bottom';
     captionStyle?: 'regular' | 'italic';
     captionAlign?: 'left' | 'center' | 'right';
+    fullWidth?: boolean;
+    float?: 'left' | 'right';
+    containerClassName?: string;
 }> = ({
     src,
     className,
@@ -18,6 +21,9 @@ const Image: React.FC<{
     captionStyle = 'regular',
     captionAlign = 'center',
     lazyLoad = true,
+    fullWidth = true,
+    float = null,
+    containerClassName = '',
 }) => {
     const [loadedSrc, setLoadedSrc] = useState(false);
 
@@ -38,7 +44,13 @@ const Image: React.FC<{
     const captionHTML = <div className={captionClassName}>{caption || ''}</div>;
 
     return (
-        <>
+        <div
+            className={`
+                ${fullWidth ? 'xl:h-full xl:w-full flex flex-col' : ''}
+                ${float ? `xl:float-${float}` : ''} float-none
+                ${containerClassName}
+            `}
+        >
             {(caption && captionPosition === 'top') && captionHTML}
             <img 
                 src={src} 
@@ -48,7 +60,7 @@ const Image: React.FC<{
                 alt={alt}
             />
             {(caption && captionPosition === 'bottom') && captionHTML}
-        </>
+        </div>
     )
 }
 

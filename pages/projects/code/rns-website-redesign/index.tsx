@@ -10,12 +10,9 @@ export default function Index() {
             <Slideshow height={500}>
                 <Contain>
                     <Image
-                        className="float-left mr-4"
                         src="https://s3.amazonaws.com/caldwell.info/images/religion-news-service-website-redesign/rns-home-mobile-dec-2021-800x1732-s1-q90.png"
+                        caption="I rebuilt and redesigned the entire ReligionNews.com frontend. ReligionNews.com gets over 2 million page views a month, so we needed a fast, highly SEO optimized site. The new frontend’s page speed is 2x faster than the previous site and SEO has been improved 15% — helping to double our Alexa ranking. The new site also has many UX improvements."
                     />
-                    <p>
-                        I rebuilt and redesigned the entire ReligionNews.com frontend. ReligionNews.com gets over 2 million page views a month, so we needed a fast, highly SEO optimized site. The new frontend’s page speed is 2x faster than the previous site and SEO has been improved 15% — helping to double our Alexa ranking. The new site also has many UX improvements.
-                    </p>
                 </Contain>
                 <Contain>
                     <Image 
