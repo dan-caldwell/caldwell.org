@@ -1,24 +1,16 @@
-const { getPostList } = require('./utils/post-metadata');
-
-// Get all the posts
-const postList = getPostList().reduce((total, item) => {
-  total.push(item.projects);
-  return total;
-}, []).flat();
-
-// Get all the thumbnail backgrounds in the post meta
-const safelistBgs = [...new Set(postList.map(item => item.thumbnail_bg ? `bg-${item.thumbnail_bg}` : null))];
-
-// Get all the thumbnail padding in the post meta
-const safelistThumbPadding = [...new Set(postList.map(item => item.thumbnail_padding ? `p-${item.thumbnail_padding}` : null))];
-
 module.exports = {
-  content: [
-    "./pages/**/*.{js,ts,jsx,tsx}",
-    "./components/**/*.{js,ts,jsx,tsx}",
-  ],
+  purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
+  darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {},
+    cursor: {
+      'zoom-in': 'zoom-in',
+      'zoom-out': 'zoom-out',
+      pointer: 'pointer'
+    },
+    screens: {
+      'xl': '1184px'
+    }
   },
   variants: {
     extend: {
@@ -27,12 +19,10 @@ module.exports = {
     },
   },
   plugins: [],
-  safelist: [
-    'bg-blue-900',
-    'p-1',
-    'pl-4',
-    'pl-6',
-    ...safelistThumbPadding,
-    ...safelistBgs
-  ]
+  purge: {
+    content: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'], 
+    safelist: [
+      'ml-4', 'max-w-2xs'
+    ]
+  }
 }

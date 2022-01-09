@@ -1,14 +1,15 @@
-import type { AppProps } from 'next/app';
-import LeftSidebarLayout from '../components/layouts/LeftSidebarLayout';
+import PostProvider from '../components/context/PostContext';
+import PageWithSidebar from '../components/templates/PageWithSidebar';
 import '../styles/globals.css';
 
-function App({ Component, pageProps }: AppProps) {
-
-  return (
-    <LeftSidebarLayout>
-      <Component {...pageProps} />
-    </LeftSidebarLayout>
-  )
+function App({ Component, pageProps }) {
+    return (
+        <PostProvider>
+            <PageWithSidebar>
+                <Component {...pageProps} />
+            </PageWithSidebar>
+        </PostProvider>
+    )
 }
 
-export default App;
+export default App
