@@ -4,7 +4,6 @@ import ReactHtmlParser from 'react-html-parser';
 import Header from "../components/text/Header";
 import React, { useContext, useEffect } from "react";
 import { PostContext } from "../components/context/PostContext";
-import Head from "next/head";
 import AppHead from "../components/basic/AppHead";
 
 const md = `

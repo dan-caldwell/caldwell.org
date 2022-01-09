@@ -8,6 +8,7 @@ export type ConfigSection = {
     categories: ConfigCategory[]
 }
 
+export const bucket = 'caldwell.org';
 export const projectsDir = 'post';
 export const postProperties = {
     // Metadata about categories

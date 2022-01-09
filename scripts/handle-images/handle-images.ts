@@ -8,6 +8,7 @@ import { JSDOM } from 'jsdom';
 import sharp from 'sharp';
 import mime from 'mime-types';
 import got from 'got';
+import { bucket } from '../../config';
 
 export class HandleImages {
 
@@ -34,12 +35,12 @@ export class HandleImages {
     // Loop through postList to find non-uploaded images
     static findNonUploadedImages = async ({ postList }) => {
         const output = [];
-        for (const { html, slug, filePath, thumbnail } of postList) {
+        for (const { html, slug, path: filePath, thumbnail } of postList) {
             // Use JSDOM to get all image elements
             const { document } = (new JSDOM(html)).window;
             const images = [...document.querySelectorAll('img')];
             // Check if we should add the thumbnail
-            if (thumbnail && !thumbnail.includes('s3.amazonaws.com/caldwell.org')) {
+            if (thumbnail && !thumbnail.includes(`s3.amazonaws.com/${bucket}`)) {
                 await this.pushToImagesToBeUploaded({
                     output,
                     src: thumbnail,
@@ -51,7 +52,7 @@ export class HandleImages {
             }
             const srcs = images.map(img => ({ src: img.src, alt: img.getAttribute('alt') }));
             for (const { src, alt } of srcs) {
-                if (!src.includes('s3.amazonaws.com/caldwell.org')) {
+                if (!src.includes(`s3.amazonaws.com/${bucket}`)) {
                     await this.pushToImagesToBeUploaded({
                         output,
                         src,
@@ -125,11 +126,13 @@ export class HandleImages {
     // Replace the original image src in the markdown file with the new src
     static replaceImageSrc = ({ mdFilePath, newSrc, oldSrc }) => {
         try {
+            // Create an absolute path for the md file
+            const mdPath = path.join(__dirname, `../..`, mdFilePath);
             // Replace the local MDX file contents
-            const mdFile = fs.readFileSync(mdFilePath, 'utf-8');
-            const newImgUrl = `https://s3.amazonaws.com/caldwell.org/${newSrc}`;
+            const mdFile = fs.readFileSync(mdPath, 'utf-8');
+            const newImgUrl = `https://s3.amazonaws.com/${bucket}/${newSrc}`;
             const newMdFileContents = mdFile.replace(oldSrc, newImgUrl);
-            fs.writeFileSync(mdFilePath, newMdFileContents);
+            fs.writeFileSync(mdPath, newMdFileContents);
             console.log('Replaced image url in MD file', newImgUrl);
         } catch (err) {
             console.log('Error replacing image src', oldSrc);
@@ -141,7 +144,7 @@ export class HandleImages {
     static doesObjectExist = async ({ s3, key }) => {
         try {
             return await s3.getHeadObject({
-                Bucket: process.env.AWS_CALDWELL_BUCKET,
+                Bucket: bucket,
                 Key: key
             });
         } catch (err) {
@@ -154,7 +157,7 @@ export class HandleImages {
         try {
             // Upload the image
             await s3.putObject({
-                Bucket: process.env.AWS_CALDWELL_BUCKET,
+                Bucket: bucket,
                 Key: key,
                 Body: buffer,
                 ContentType: mime.lookup(key),

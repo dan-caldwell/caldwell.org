@@ -24,10 +24,10 @@ const Sidebar: React.FC<SidebarProps> = ({ lists }) => {
     }
 
     return (
-        <div className={`Sidebar bg-white xl:fixed top-0 w-sidebar xl:border-r xl:border-l xl:border-gray-300 flex-col justify-between flex flex-shrink-0 xl:h-full ${menuOpen ? 'h-full' : ''}`}>
+        <div className={`Sidebar bg-white xl:fixed top-0 w-sidebar xl:border-r xl:border-l xl:border-gray-300 flex-col justify-between flex flex-shrink-0 xl:h-full ${menuOpen ? 'h-full min-h-screen-fix' : ''}`}>
             <div className="flex-col flex-grow xl:overflow-hidden flex">
                 <LogoHeader title="Dan Caldwell" href="/" onClickHamburger={handleClickHamburger} hamburgerVisible={!menuOpen} />
-                <div className={`flex-col xl:overflow-hidden xl:flex xl:mt-0 mt-16 ${menuOpen ? "flex" : "hidden"}`}>
+                <div className={`flex-col xl:overflow-hidden xl:flex xl:mt-0 mt-12 ${menuOpen ? "flex" : "hidden"}`}>
                     <div className="w-full flex">
                         <Link href="/about">
                             <a className="px-4 py-2 w-full border-b border-gray-300 hover:no-underline hover:bg-purple-50">About</a>

@@ -39,13 +39,13 @@ const PageWithSidebar: React.FC<PageWithSidebarProps> = ({ children }) => {
     });
 
     return (
-        <div className="flex flex-col xl:flex-row xl:justify-between bg-gray-100">
+        <div className="flex flex-col xl:flex-row xl:justify-between">
             <Sidebar lists={listsOfPosts} />
             <main ref={mainRef} className={`
-                flex-col px-4 mt-16 m-sidebar overflow-y-hidden h-full w-full
-                xl:min-h-full xl:px-0 xl:mt-0 ${menuOpen ? 'hidden xl:flex' : 'flex'}`}
+                flex-col px-4 m-sidebar overflow-y-hidden w-full mt-16
+                xl:min-h-full xl:px-0 xl:pt-0 xl:mt-0 ${menuOpen ? 'hidden xl:flex' : 'flex'}`}
             >
-                <div className="mx-auto w-container h-full w-full flex-col flex">
+                <div className="mx-auto w-container w-full flex-col flex">
                     {children}
                 </div>
             </main>

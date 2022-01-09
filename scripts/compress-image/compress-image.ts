@@ -5,6 +5,7 @@ import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import mime from 'mime-types';
 import chalk from 'chalk';
+import { bucket } from '../../config';
 
 const argv = yargs(hideBin(process.argv)).argv;
 
@@ -30,7 +31,7 @@ const putImage = async ({ key, buffer }) => {
     try {
         // Upload the image
         await s3.putObject({
-            Bucket: process.env.AWS_CALDWELL_BUCKET,
+            Bucket: bucket,
             Key: key,
             Body: buffer,
             ContentType: mime.lookup(key),
@@ -91,10 +92,10 @@ const init = async () => {
         const inputUrl = argv._.find(item => typeof item === "string" && item.includes('https://s3.amazonaws.com'))?.toString();
         if (!inputUrl) return console.log('Could not find an input url');
         // Get the key
-        const key = inputUrl.replace(`https://s3.amazonaws.com/${process.env.AWS_CALDWELL_BUCKET}/`, '');
+        const key = inputUrl.replace(`https://s3.amazonaws.com/${bucket}/`, '');
         const s3Obj = await s3.getObject({
             Key: key,
-            Bucket: process.env.AWS_CALDWELL_BUCKET
+            Bucket: bucket
         }).promise();
         const buffer = s3Obj.Body;
         const { buffer: newBuffer, meta } = await compress({
@@ -109,7 +110,7 @@ const init = async () => {
             key: newKey,
             buffer: newBuffer
         });
-        console.log('New image URL', chalk.greenBright(`https://s3.amazonaws.com/${process.env.AWS_CALDWELL_BUCKET}/${newKey}`));
+        console.log('New image URL', chalk.greenBright(`https://s3.amazonaws.com/${bucket}/${newKey}`));
     } catch (err) {
         console.log(err);
     }

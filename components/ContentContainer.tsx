@@ -11,7 +11,7 @@ const ContentContainer: React.FC<ContentContainerProps> = ({ children, className
     ].join(' ');
 
     return (
-        <div className={`ContentContainer flex flex-col mx-auto py-8 w-container ${layoutClassName} ${className}`}>
+        <div className={`ContentContainer flex flex-col mx-auto pb-4 xl:py-8 w-container ${layoutClassName} ${className}`}>
             {children}
         </div>
     )

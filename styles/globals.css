@@ -169,7 +169,11 @@
     }
 
     .h-screen-fix {
-        height: var(--app-height);
+        height: calc(var(--app-height) - 4rem);
+    }
+
+    .min-h-screen-fix {
+        min-height: var(--app-height);
     }
 
     .max-h-frame {
@@ -212,6 +216,10 @@
 
     iframe {
         height: 100%;
+    }
+
+    .h-screen-fix {
+        height: var(--app-height);
     }
 }
 

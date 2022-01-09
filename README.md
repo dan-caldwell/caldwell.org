@@ -19,4 +19,4 @@ To compress an image from an s3 URL, you can use a command similar to this:
 
 This command will scale by half and have 80% quality. It will also overwrite the old URL and upload the new image.
 
-If you do not pass the `--overwrite` flag, the new image URL will include the dimensions of the new image: `https://s3.amazonaws.com/caldwell.info/images/doodle-1-1000x764-s0.5-q80.jpg`
+If you do not pass the `--overwrite` flag, the new image URL will include the dimensions of the new image: `https://s3.amazonaws.com/caldwell.org/images/doodle-1-1000x764-s0.5-q80.jpg`
