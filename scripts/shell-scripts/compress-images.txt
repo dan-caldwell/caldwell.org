@@ -1,0 +1,9 @@
+urls=(
+    "https://s3.amazonaws.com/caldwell.info/images/religion-news-service-website-redesign/rns-gallery-dec-2021-2.png"
+)
+
+for i in "${urls[@]}"
+do
+    yarn compress-image $i --scale 0.7 --quality 90
+done
+

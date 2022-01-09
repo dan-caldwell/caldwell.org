@@ -2,77 +2,219 @@
 @tailwind components;
 @tailwind utilities;
 
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+:root {
+    --app-height: 100vh;
+    --sidebar-width: 18rem;
 }
 
-* {
-  box-sizing: border-box;
+@layer base {
+    body {
+        @apply overscroll-none p-0 m-0 bg-gray-100;
+    }
+
+    h1 {
+        @apply text-4xl mb-4;
+    }
+
+    ul {
+        @apply list-inside list-disc text-lg mb-4;
+    }
+
+    ol {
+        @apply list-decimal list-inside text-lg mb-4;
+    }
+
+    p {
+        @apply mb-4 text-lg;
+    }
+
+    h2 {
+        @apply text-2xl font-bold mb-4;
+    }
+
+    h3 {
+        @apply text-xl font-bold mb-4;
+    }
+
+    h4 {
+        @apply text-xl mb-4 underline;
+    }
+
+    h1:last-child, h2:last-child, h3:last-child, h4:last-child, p:last-child, ul:last-child {
+        margin-bottom: 0;
+    }
+
+    a {
+        @apply text-purple-600;
+    }
+
+    li a {
+        @apply break-all;
+    }
+
+    iframe {
+        @apply w-full mb-4 h-full;
+    }
+
+    .SidebarGroup:last-child .SidebarListItem {
+        border-bottom-width: 0;
+    }
 }
 
 @layer utilities {
-  .w-navbar {
-    width: 100%;
-  }
 
-  .fill-black {
-    fill: black;
-    fill-opacity: 1;
-  }
+    .border-2rem {
+        border-width: 2rem;
+    }
 
-  .fill-semi-black {
-    fill: black;
-    fill-opacity: 0.5;
-  }
+    .border-1rem {
+        border-width: 1rem;
+    }
 
-  .transition-fill-opacity {
-    transition-property: fill-opacity;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 150ms;
-  }
+    .border-half-rem {
+        border-width: 0.5rem;
+    }
 
-  .leading-0 {
-    line-height: 0;
-  }
+    .snap-x-mandatory {
+        scroll-snap-type: x mandatory;
+    }
 
-  .translate-y-minus-50 {
-    transform: translateY(-50%);
-  }
+    .snap-center {
+        scroll-snap-align: center;
+    }
 
-  .translate-y-minus-25 {
-    transform: translateY(-25%);
-  }
+    .snap-stop-always {
+        scroll-snap-stop: always;
+    }
 
-  .w-container {
-    width: 100%;
-  }
+    .w-144 {
+        width: 36rem;
+    }
 
-  .snap-x-mandatory {
-    scroll-snap-type: x mandatory;
-  }
+    .w-160 {
+        width: 40rem;
+    }
 
-  .snap-center {
-    scroll-snap-align: center;
-  }
+    .w-200 {
+        width: 100%;
+        max-width: 50rem;
+    }
 
-  .snap-stop-always {
-    scroll-snap-stop: always;
-  }
+    .w-240 {
+        width: 60rem;
+    }
 
+    .w-192 {
+        width: 48rem;
+    }
+
+    .w-container {
+        width: 100%;
+    }
+
+    .w-outer-container {
+        width: 100%;
+    }
+
+    .max-w-container {
+        max-width: 50rem;
+    }
+
+    .w-sidebar {
+        width: 100%;
+    }
+
+    .w-main {
+        width: calc(100vw - var(--sidebar-width));
+    }
+
+    .w-print-page {
+        width: calc(100vw - 42rem);
+    }
+
+    .max-w-5xs {
+        max-width: 2rem;
+    }
+
+    .max-w-4xs {
+        max-width: 4rem;
+    }
+
+    .max-w-3xs {
+        max-width: 8rem;
+    }
+
+    .max-w-2xs {
+        max-width: 16rem;
+    }
+
+    .max-w-3xs {
+        max-width: 12rem;
+    }
+
+    .max-w-4xs {
+        max-width: 8rem;
+    }
+
+    .max-w-5xs {
+        max-width: 4rem;
+    }
+
+    .pt-full {
+        padding-top: 100%;
+    }
+
+    .pt-16-9 {
+        padding-top: 56.25%;
+    }
+
+    .h-screen-fix {
+        height: var(--app-height);
+    }
+
+    .max-h-frame {
+        max-height: 28.125rem;
+    }
+
+    .min-h-min-content {
+        min-height: min-content;
+        min-height: -moz-min-content;
+        min-height: -webkit-min-content;
+    }
+
+    .scrollbar-width-0 {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
 }
 
 @screen xl {
+    
+    a {
+        @apply hover:underline;
+    }
 
-  .w-navbar {
-    @apply w-72;
-  }
+    .w-container {
+        width: 50rem;
+    }
 
-  .w-container {
-    width: 50rem;
-  }
+    .w-outer-container {
+        width: 74rem;
+    }
 
+    .w-sidebar {
+        width: var(--sidebar-width);
+    }
+
+    .m-sidebar {
+        margin-left: var(--sidebar-width);
+    }
+
+    iframe {
+        height: 100%;
+    }
 }
+
+@viewport {  
+    orientation: portrait;  
+} 

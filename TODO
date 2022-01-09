@@ -1,0 +1,24 @@
+[√] Use a next Link to link in order to prevent page reload
+[√] Convert all images to JPG and compress via sharp
+[√] Thumbnail generation with AWS
+[√] Image compression script
+[√] Support for auto uploading images from URL to S3
+[√] Remove get/set context state
+[√] Preview src and full src for Image element
+    [√] Preview src height/width prop to make loading images take up space
+[√] Click to enlarge image
+[√] Sort posts by date
+[√] Open link in new tab with pictures -> image opacity doesn't go to 1
+[√] Remove Image width/height on mobile
+[√] Compress RNS big image srcs
+[√] Import post content
+[√] Load lazy loaded images one slide early
+[√] Site like Google Chrome PDF viewer?
+[√] CSS transitions on scroll to make a more cinematic experience 
+    [√] When done scrolling, remove extra margin caused by sticky
+[√] Next/previous buttons become hidden when overflow-y-scroll on PrintPageContainer
+[√] Scroll to current SidebarListItem on mobile
+[ ] When ready to switch, add Cloudfront and set up domain name
+[ ] Open portfolio links in new tab (e.g. ultracss.com)
+[ ] When clicking from fixed height post -> scrollable post, remove background color stutter
+[ ] Sidebar categories

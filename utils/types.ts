@@ -1,9 +1,16 @@
-export type ProjectMeta = {
-    slug?: string,
+export type MDXSource = {
+    slug: string,
+    altPath?: string
+}
+
+export type PostMeta = {
+    slug: string,
     title?: string,
     date?: string,
-    background?: string,
-    thumbnail?: string,
-    thumbnail_bg?: string,
-    thumbnail_padding?: number
+    excerpt?: string
+    thumbnail?: string
+    html?: string
+    content?: string,
+    filePath: string,
+    path?: string
 }
