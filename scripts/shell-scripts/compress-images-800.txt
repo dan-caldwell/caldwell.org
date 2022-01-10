@@ -1,5 +1,9 @@
 urls=(
-    "https://s3.amazonaws.com/caldwell.info/images/religion-news-service-website-redesign/rns-gallery-dec-2021-2.png"
+    "https://s3.amazonaws.com/caldwell.org/images/rns-website-redesign/rns-mobile-home-page.png"
+    "https://s3.amazonaws.com/caldwell.org/images/rns-website-redesign/rns-desktop-home-page.png"
+    "https://s3.amazonaws.com/caldwell.org/images/rns-website-redesign/rns-post-page.png"
+    "https://s3.amazonaws.com/caldwell.org/images/rns-website-redesign/rns-category-page.png"
+    "https://s3.amazonaws.com/caldwell.org/images/rns-website-redesign/rns-gallery.png"
 )
 
 for i in "${urls[@]}"

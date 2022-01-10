@@ -7,7 +7,7 @@ import { PostContext } from "../components/context/PostContext";
 import AppHead from "../components/basic/AppHead";
 
 const md = `
-<img class="ml-2 mb-2" align="right" src="https://cms.caldwell.info/wp-content/uploads/2020/12/0.jpg">
+<img class="ml-2 mb-2" align="right" src="https://s3.amazonaws.com/caldwell.org/images/misc/me.jpg">
 
 I am interested in software, design, and great user experience.
 
