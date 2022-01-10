@@ -1,9 +1,6 @@
 urls=(
-    "https://s3.amazonaws.com/caldwell.org/images/rns-website-redesign/rns-mobile-home-page.png"
-    "https://s3.amazonaws.com/caldwell.org/images/rns-website-redesign/rns-desktop-home-page.png"
-    "https://s3.amazonaws.com/caldwell.org/images/rns-website-redesign/rns-post-page.png"
-    "https://s3.amazonaws.com/caldwell.org/images/rns-website-redesign/rns-category-page.png"
-    "https://s3.amazonaws.com/caldwell.org/images/rns-website-redesign/rns-gallery.png"
+    "https://s3.amazonaws.com/caldwell.org/images/post/code/ultracss/ultra-css-home.jpg"
+    "https://s3.amazonaws.com/caldwell.org/images/post/code/ultracss/ultra-css-app.jpg"
 )
 
 for i in "${urls[@]}"

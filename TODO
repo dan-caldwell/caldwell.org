@@ -18,7 +18,8 @@
     [√] When done scrolling, remove extra margin caused by sticky
 [√] Next/previous buttons become hidden when overflow-y-scroll on PrintPageContainer
 [√] Scroll to current SidebarListItem on mobile
+[√] When clicking from fixed height post -> scrollable post, remove background color stutter
+[√] Sidebar categories
 [ ] When ready to switch, add Cloudfront and set up domain name
 [ ] Open portfolio links in new tab (e.g. ultracss.com)
-[ ] When clicking from fixed height post -> scrollable post, remove background color stutter
-[ ] Sidebar categories
+[ ] Adjust images to be correct and categorized

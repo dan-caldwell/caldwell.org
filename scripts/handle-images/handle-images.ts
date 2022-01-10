@@ -35,16 +35,17 @@ export class HandleImages {
     // Loop through postList to find non-uploaded images
     static findNonUploadedImages = async ({ postList }) => {
         const output = [];
-        for (const { html, slug, path: filePath, thumbnail } of postList) {
+        for (const { html, path: filePath, thumbnail } of postList) {
+            const adjustedSlug = filePath.replace('.mdx', '');
             // Use JSDOM to get all image elements
             const { document } = (new JSDOM(html)).window;
             const images = [...document.querySelectorAll('img')];
             // Check if we should add the thumbnail
-            if (thumbnail && !thumbnail.includes(`s3.amazonaws.com/${bucket}`)) {
+            if (thumbnail && !thumbnail.includes(`s3.amazonaws.com/${bucket}/images/${adjustedSlug}`)) {
                 await this.pushToImagesToBeUploaded({
                     output,
                     src: thumbnail,
-                    slug,
+                    slug: adjustedSlug,
                     filePath,
                     isThumbnail: true,
                     alt: null
@@ -52,11 +53,11 @@ export class HandleImages {
             }
             const srcs = images.map(img => ({ src: img.src, alt: img.getAttribute('alt') }));
             for (const { src, alt } of srcs) {
-                if (!src.includes(`s3.amazonaws.com/${bucket}`)) {
+                if (!src.includes(`s3.amazonaws.com/${bucket}/images/${adjustedSlug}`)) {
                     await this.pushToImagesToBeUploaded({
                         output,
                         src,
-                        slug,
+                        slug: adjustedSlug,
                         filePath,
                         isThumbnail: false,
                         alt
