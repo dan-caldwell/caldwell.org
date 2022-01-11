@@ -10,7 +10,7 @@ export type SidebarListItemProps = {
 
 const SidebarListItem: React.FC<SidebarListItemProps> = ({ post, currentPost }) => {
     const [loaded, setLoaded] = useState(false);
-    const { title, slug, thumbnail, path } = post;
+    const { title, slug, thumbnail, path, thumbnail_bg, thumbnail_padding } = post;
     const container = useRef(null);
     const { menuOpen } = useContext(PostContext);
 
@@ -20,6 +20,12 @@ const SidebarListItem: React.FC<SidebarListItemProps> = ({ post, currentPost }) 
         ${currentPost === fullSlug ? 'bg-purple-100' : 'xl:hover:bg-purple-50'}
         flex p-4 w-full
     `;
+
+    const thumbnailClassName = [
+        "w-16 h-16 mr-2 shrink-0 object-contain rounded",
+        thumbnail_bg ? `bg-${thumbnail_bg}` : 'bg-slate-900',
+        thumbnail_padding ? `p-${thumbnail_padding}` : 'p-1'
+    ].join(' ');
 
     // Scroll to the element if it's not in view
     useEffect(() => {
@@ -39,7 +45,7 @@ const SidebarListItem: React.FC<SidebarListItemProps> = ({ post, currentPost }) 
             <Link href={`/${fullSlug}/`} prefetch={false} scroll={currentPost !== slug}>
                 <a className="hover:no-underline w-full break-normal">
                     <div className={containerClass}>
-                        <img src={thumbnail} className="w-16 h-16 mr-2" alt={`${title} thumbnail`} />
+                        <img src={thumbnail} className={thumbnailClassName} alt={`${title} thumbnail`} />
                         <div>
                             {title}
                         </div>

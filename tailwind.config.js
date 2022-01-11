@@ -1,6 +1,6 @@
 module.exports = {
   purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
-  darkMode: false, // or 'media' or 'class'
+  media: false, // or 'media' or 'class'
   theme: {
     extend: {},
     cursor: {
@@ -19,10 +19,10 @@ module.exports = {
     },
   },
   plugins: [],
-  purge: {
-    content: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'], 
-    safelist: [
-      'ml-4', 'max-w-2xs'
-    ]
-  }
+  content: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
+  safelist: [
+    'ml-4', 'max-w-2xs', 'p-0', 'shrink-0',
+    'bg-black', 'bg-sky-800', 'bg-amber-900', 'bg-blue-900', 'bg-pink-900', 'bg-gray-900', 'bg-gray-300',
+    'bg-slate-800', 'bg-stone-800', 'bg-emerald-500', 'bg-fuchsia-800', 'bg-red-800', 'bg-yellow-400', 'bg-yellow-500',
+  ]
 }

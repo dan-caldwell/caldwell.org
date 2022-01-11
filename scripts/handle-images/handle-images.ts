@@ -1,4 +1,4 @@
-// This CLI will generate thumbnails from post images and automatically upload images from the public/images folder to S3
+// This CLI will generate thumbnails from post images and automatically upload images from the local-images folder to S3
 // It will then replace the post images with the new S3 URLs
 import PostUtils from '../../utils/PostUtils';
 import AWS from 'aws-sdk';
@@ -17,7 +17,7 @@ export class HandleImages {
         try {
             const isUrl = src.includes('http://') || src.includes('https://');
             const urlRes = isUrl ? await got(src, { responseType: 'buffer' }) : null;
-            const buffer = isUrl ? urlRes.body : fs.readFileSync(path.join(__dirname, `../../public`, src));
+            const buffer = isUrl ? urlRes.body : fs.readFileSync(path.join(__dirname, `../../local-images`, src));
             output.push({
                 src,
                 slug,
@@ -71,7 +71,11 @@ export class HandleImages {
     // Create a thumbnail
     static createThumbnail = async ({ buffer, src }) => {
         try {
-            return await sharp(buffer)
+            const sharpObj = sharp(buffer);
+            const meta = await sharpObj.metadata();
+            // Do not compress SVGs
+            if (meta.format === "svg") return buffer;
+            return await sharpObj
                 .resize({
                     width: 150,
                     height: 150,
@@ -119,7 +123,7 @@ export class HandleImages {
     // Rename a local file to a server file name
     static newFileName = ({ isThumbnail, extension = null, slug, alt = null, index = 0 }) => {
         const slugAlt = alt ? alt.replace(/ /g, '-').toLowerCase() : `image-${index + 1}`;
-        const thumbnailName = `images/${slug}/thumbnail.jpg`;
+        const thumbnailName = `images/${slug}/thumbnail.${extension === 'svg' ? 'svg' : 'jpg'}`;
         const standardName = `images/${slug}/${slugAlt}.${extension}`;
         return isThumbnail ? thumbnailName : standardName;
     }
