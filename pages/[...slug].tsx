@@ -14,6 +14,7 @@ import Anchor from '../components/basic/Anchor';
 import { PostMeta } from '../utils/types';
 import { sections } from '../config';
 import Head from 'next/head';
+import fs from 'fs-extra';
 
 const mdxComponents = {
     YouTube,
@@ -26,7 +27,10 @@ const mdxComponents = {
 }
 
 export const getStaticPaths = async () => {
-    
+
+    const splitFileName = __filename.split('/');
+    const pagesIndex = splitFileName.indexOf('pages');
+
     const allPaths = [];
     for (const section in sections) {
         const postList = PostUtils.getPostList({
@@ -37,7 +41,13 @@ export const getStaticPaths = async () => {
             params: {
                 slug: post.path.replace('.mdx', '').split('/')
             }
-        }));
+        })).filter(({ params }) => {
+            // Make sure the path doesn't exist in the pages directory
+            const joinedSlug = params.slug;
+            const joinedStartDir = splitFileName.slice(0, pagesIndex + 1);
+            const joined = [...joinedStartDir, ...joinedSlug].join('/') + '.js';
+            return (!fs.existsSync(joined));
+        });
         allPaths.push(...paths);
     }
 
