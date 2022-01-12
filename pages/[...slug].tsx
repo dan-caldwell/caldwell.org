@@ -29,7 +29,7 @@ const mdxComponents = {
 export const getStaticPaths = async () => {
 
     const splitFileName = __filename.split('/');
-    const pagesIndex = splitFileName.indexOf('pages');
+    const baseDirIndex = splitFileName.indexOf('caldwell.org');
 
     const allPaths = [];
     for (const section in sections) {
@@ -44,9 +44,14 @@ export const getStaticPaths = async () => {
         })).filter(({ params }) => {
             // Make sure the path doesn't exist in the pages directory
             const joinedSlug = params.slug;
-            const joinedStartDir = splitFileName.slice(0, pagesIndex + 1);
-            const joined = [...joinedStartDir, ...joinedSlug].join('/') + '.js';
-            return (!fs.existsSync(joined));
+            const joinedStartDir = splitFileName.slice(0, baseDirIndex + 1);
+            const extensions = ['.js', '.tsx'];
+            const joined = [...joinedStartDir, 'pages', ...joinedSlug].join('/');
+            let exists = false;
+            extensions.forEach(extension => {
+                if (fs.existsSync(joined + extension)) exists = true;
+            });
+            return (!exists);
         });
         allPaths.push(...paths);
     }
@@ -55,6 +60,7 @@ export const getStaticPaths = async () => {
 }
 
 export const getStaticProps = async ({ params: { slug } }) => {
+
     const { source, meta } = await PostUtils.getMdxSource({ slug: slug.join('/') });
 
     return {
