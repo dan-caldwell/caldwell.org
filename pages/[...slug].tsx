@@ -14,7 +14,6 @@ import Anchor from '../components/basic/Anchor';
 import { PostMeta } from '../utils/types';
 import { sections } from '../config';
 import Head from 'next/head';
-import TopSites from '../applications/top-sites/TopSites';
 
 const mdxComponents = {
     YouTube,
@@ -24,7 +23,6 @@ const mdxComponents = {
     PrintPageContainer,
     Md,
     Anchor,
-    TopSites
 }
 
 export const getStaticPaths = async () => {
@@ -58,7 +56,7 @@ export const getStaticProps = async ({ params: { slug } }) => {
     }
 }
 
-const Post = ({ source, meta: { title, layout }, slug }) => {
+const Post = ({ source, meta: { title, layout }, slug, children }) => {
     const { setCurrentPost, setOpenSection } = useContext(PostContext);
 
     useEffect(() => {
@@ -73,7 +71,7 @@ const Post = ({ source, meta: { title, layout }, slug }) => {
                 <title>{title} - Dan Caldwell</title>
             </Head>
             <Header title={title} />
-            <MDXRemote {...source} components={mdxComponents} />
+            {children || <MDXRemote {...source} components={mdxComponents} />}
         </ContentContainer>
     );
 }
