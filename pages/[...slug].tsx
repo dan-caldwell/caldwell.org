@@ -14,6 +14,7 @@ import Anchor from '../components/basic/Anchor';
 import { PostMeta } from '../utils/types';
 import { sections } from '../config';
 import Head from 'next/head';
+import TopSites from '../applications/top-sites/TopSites';
 
 const mdxComponents = {
     YouTube,
@@ -22,7 +23,8 @@ const mdxComponents = {
     TitleCard,
     PrintPageContainer,
     Md,
-    Anchor
+    Anchor,
+    TopSites
 }
 
 export const getStaticPaths = async () => {

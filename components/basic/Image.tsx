@@ -59,6 +59,7 @@ const Image: React.FC<ImageProps> = ({
         loadedSrc ? 'opacity-100' : 'opacity-0',
         fullWidth ? 'w-full' : '',
         clickEnlarge ? 'cursor-zoom-in' : '',
+        className,
         `transition-opacity duration-200 ease-in-out object-contain top-0 max-w-full max-h-full`,
     ].join(' ');
 
@@ -113,7 +114,7 @@ const Image: React.FC<ImageProps> = ({
                         onLoad={() => setLoadedSrc(true)}
                         loading={lazyLoad ? 'lazy' : null}
                         alt={alt}
-                        className={imgClassName + ' ' + className}
+                        className={imgClassName}
                         ref={imageRef}
                         style={{
                             width: width && imageRatio && !loadedSrc ?
