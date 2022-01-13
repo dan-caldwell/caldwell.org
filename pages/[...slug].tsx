@@ -31,6 +31,8 @@ export const getStaticPaths = async () => {
     const splitFileName = __filename.split('/');
     const baseDirIndex = splitFileName.indexOf('caldwell.org');
 
+    console.dir({ __filename }, { depth: null });
+
     const allPaths = [];
     for (const section in sections) {
         const postList = PostUtils.getPostList({
