@@ -29,9 +29,7 @@ const mdxComponents = {
 export const getStaticPaths = async () => {
 
     const splitFileName = __filename.split('/');
-    const baseDirIndex = splitFileName.indexOf('caldwell.org');
-
-    console.dir({ __filename }, { depth: null });
+    const baseDirIndex = splitFileName.lastIndexOf('caldwell.org');
 
     const allPaths = [];
     for (const section in sections) {
