@@ -11,6 +11,8 @@ const searchUrl = `https://top-sites-list.s3.amazonaws.com/`;
 
 const TopSites = () => {
     const [searchString, setSearchString] = useState('');
+    const [rankingType, setRankingType] = useState<'page' | '1letter' | '2letter'>('page');
+    const [currentPage, setCurrentPage] = useState(1);
     const [singleLetterSearchPage, setSingleLetterSearchPage] = useState({
         letters: '',
         results: []
@@ -34,11 +36,16 @@ const TopSites = () => {
         setSearchString(target.value);
     }
 
-    const handleListRankings = async () => {
-        const res = await fetch(`${searchUrl}pages/1.json`);
-        const parsed = await res.json();
-        setFullPageResults(parsed);
-        setSearchResults(parsed);
+    const handleListRankings = async (pageNum = 1) => {
+        try {
+            const res = await fetch(`${searchUrl}pages/${pageNum}.json`);
+            const parsed = await res.json();
+            setFullPageResults(parsed);
+            setSearchResults(parsed);
+            setRankingType('page');
+        } catch (err) {
+            console.error(err);
+        }
     }
 
     const handleSearchClick = async (e: React.MouseEvent) => {
@@ -56,6 +63,7 @@ const TopSites = () => {
                 letters: searchString,
                 results: parsed
             });
+            setRankingType('1letter');
             parsedResults = parsed;
         } else if (searchString.length > 1 && twoLetterSearchPage.letters !== searchString.slice(0, 2)) {
             const res = await fetch(`${searchUrl}characters/${searchString.slice(0, 2)}.json`);
@@ -64,6 +72,7 @@ const TopSites = () => {
                 letters: searchString.slice(0, 2),
                 results: parsed
             });
+            setRankingType('2letter');
             parsedResults = parsed;
         }
         if (singleLetterSearchPage.results.length && singleLetterSearchPage.letters === searchString[0]) parsedResults = singleLetterSearchPage.results;
@@ -74,6 +83,7 @@ const TopSites = () => {
     const handleClearSearch = () => {
         setSearchString('');
         setSearchResults(fullPageResults);
+        setRankingType('page');
     }
 
     const handleFilterOnlyDomains = () => {
@@ -91,8 +101,15 @@ const TopSites = () => {
                     })
                 });
             }
+            setRankingType('page');
             return !oldValue;
         });
+    }
+
+    const handleNavigatePage = async (direction: 'back' | 'forward') => {
+        const newPageNum = direction === 'forward' ? currentPage + 1 : currentPage - 1;
+        await handleListRankings(newPageNum);
+        setCurrentPage(newPageNum);
     }
 
     useEffect(() => {
@@ -106,21 +123,27 @@ const TopSites = () => {
                 <Button title="Search" onClick={handleSearchClick} className="ml-2" />
                 <Button title="Clear" onClick={handleClearSearch} className="ml-2" />
                 <Button title="Only Domains" onClick={handleFilterOnlyDomains} className="ml-2" />
+                {rankingType === 'page' &&
+                    <>
+                        {currentPage > 1 &&
+                            <Button title="Previous page" onClick={() => handleNavigatePage('back')} className="ml-2" />
+                        }
+                        <Button title="Next page" onClick={() => handleNavigatePage('forward')} className="ml-2" />
+                    </>
+                }
             </div>
-            <div className="flex">
-                <div className="flex flex-col border-r">
-                    {searchResults.map(({ rank }) => (
-                        <div key={rank} className="p-2 border-b">{rank}</div>
+            <table className="w-full">
+                <tbody>
+                    {searchResults.map(({ rank, url }) => (
+                        <tr key={url} className="border-b">
+                            <td className="w-0 p-2 border-r">{rank}</td>
+                            <td className="p-2 text-ellipsis max-w-0 overflow-hidden whitespace-nowrap">
+                                <a className="text-blue-600 overflow-x-scroll whitespace-nowrap" href={`https://${url}`} target="_blank" rel="noopener noreferrer">{url}</a>
+                            </td>
+                        </tr>
                     ))}
-                </div>
-                <div className="flex flex-col flex-grow overflow-hidden">
-                    {searchResults.map(({ url }) => (
-                        <div key={url} className="p-2 border-b">
-                            <a className="text-blue-600 overflow-x-scroll whitespace-nowrap" href={`https://${url}`} target="_blank" rel="noopener noreferrer">{url}</a>
-                        </div>
-                    ))}
-                </div>
-            </div>
+                </tbody>
+            </table>
         </div>
     )
 }
