@@ -110,6 +110,7 @@ const TopSites = () => {
         const newPageNum = direction === 'forward' ? currentPage + 1 : currentPage - 1;
         await handleListRankings(newPageNum);
         setCurrentPage(newPageNum);
+        window.scrollTo(0, 0);
     }
 
     useEffect(() => {
@@ -117,20 +118,27 @@ const TopSites = () => {
     }, []);
 
     return (
-        <div className="Search bg-white">
-            <div className="sticky top-0 p-4 bg-white border-b">
-                <input className="border border-gray-300 p-2 rounded-lg text-sm h-8" type="text" value={searchString} onChange={handleSearchChange} />
-                <Button title="Search" onClick={handleSearchClick} className="ml-2" />
-                <Button title="Clear" onClick={handleClearSearch} className="ml-2" />
-                <Button title="Only Domains" onClick={handleFilterOnlyDomains} className="ml-2" />
-                {rankingType === 'page' &&
-                    <>
-                        {currentPage > 1 &&
-                            <Button title="Previous page" onClick={() => handleNavigatePage('back')} className="ml-2" />
-                        }
-                        <Button title="Next page" onClick={() => handleNavigatePage('forward')} className="ml-2" />
-                    </>
-                }
+        <div className="TopSites bg-white">
+            <div className="fixed bottom-0 xl:static xl:sticky xl:top-0 p-4 bg-white border-t xl:border-t-0 xl:border-b flex justify-between">
+                <div className="flex">
+                    <input className="border border-gray-300 p-2 rounded-lg text-sm h-8" type="text" value={searchString} onChange={handleSearchChange} />
+                    <Button title="Search" onClick={handleSearchClick} className="ml-2" />
+                    <Button title="Clear" onClick={handleClearSearch} className="ml-2" />
+                    <Button title="Only Domains" onClick={handleFilterOnlyDomains} className="ml-2" />
+                </div>
+                <div className="flex items-center">
+                    {rankingType === 'page' &&
+                        <>
+                            {currentPage > 1 &&
+                                <Button title="Previous" onClick={() => handleNavigatePage('back')} className="ml-2" />
+                            }
+                            {currentPage < 1000 &&
+                                <Button title="Next" onClick={() => handleNavigatePage('forward')} className="ml-2" />
+                            }
+                            <div className="ml-2">{currentPage} / {1000000 / 1000}</div>
+                        </>
+                    }
+                </div>
             </div>
             <table className="w-full">
                 <tbody>
@@ -144,6 +152,12 @@ const TopSites = () => {
                     ))}
                 </tbody>
             </table>
+            <div className="flex flex-row-reverse">
+                <div 
+                    className="cursor-pointer fixed bottom-0 p-2 bg-white border border-gray-200 m-4 shadow-md rounded-xl text-blue-600"
+                    onClick={() => window.scrollTo(0, 0)}
+                >Go to top ↑</div>
+            </div>
         </div>
     )
 }
