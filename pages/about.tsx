@@ -9,7 +9,7 @@ import AppHead from "../components/basic/AppHead";
 const md = `
 <img class="ml-2 mb-2" align="right" src="https://s3.amazonaws.com/caldwell.org/images/misc/me.jpg">
 
-I am interested in software, design, and great user experience.
+My name is Dan Caldwell. I am interested in software, design, and great user experience.
 
 Fun Facts:
 

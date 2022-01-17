@@ -23,3 +23,5 @@
 [ ] When ready to switch, add Cloudfront and set up domain name
 [ ] Open portfolio links in new tab (e.g. ultracss.com)
 [ ] Adjust images to be correct and categorized
+[ ] Mobile restore scroll position when clicking on menu
+[ ] Rename "post" folder to "projects"

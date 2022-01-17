@@ -59,6 +59,18 @@
     .SidebarGroup:last-child .SidebarListItem {
         border-bottom-width: 0;
     }
+
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+    -moz-appearance: textfield;
+    }
 }
 
 @layer components {
@@ -195,6 +207,14 @@
     .scrollbar-width-0 {
         -ms-overflow-style: none;
         scrollbar-width: none;
+    }
+
+    .right-neg-5 {
+        right: -1.25rem;
+    }
+
+    .right-neg-7 {
+        right: -1.75rem;
     }
 }
 
