@@ -1,6 +1,6 @@
 urls=(
-    "https://s3.amazonaws.com/caldwell.org/images/post/code/ultracss/ultra-css-home.jpg"
-    "https://s3.amazonaws.com/caldwell.org/images/post/code/ultracss/ultra-css-app.jpg"
+    "https://s3.amazonaws.com/caldwell.org/images/projects/code/ultracss/ultra-css-home.jpg"
+    "https://s3.amazonaws.com/caldwell.org/images/projects/code/ultracss/ultra-css-app.jpg"
 )
 
 for i in "${urls[@]}"

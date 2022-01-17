@@ -29,11 +29,11 @@ module.exports = {
     './pages/**/*.{js,ts,jsx,tsx}', 
     './components/**/*.{js,ts,jsx,tsx}', 
     './applications/**/*.{js,ts,jsx,tsx}',
-    './post/**/*.{md,mdx}', 
+    './projects/**/*.{md,mdx}', 
   ],
   safelist: [
     'ml-4', 'max-w-2xs', 'p-0', 'shrink-0',
     'bg-gray-900', 'rounded-2xl', 'mr-4', 'shadow-lg',
-    'mb-4', 'p-2'
+    'mb-4', 'p-2', 'xl:mr-4'
   ]
 }

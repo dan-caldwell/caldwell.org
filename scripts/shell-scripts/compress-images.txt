@@ -1,5 +1,5 @@
 urls=(
-    "https://s3.amazonaws.com/caldwell.org/images/post/art/art-and-illustration/large-doodle.jpg"
+    "https://s3.amazonaws.com/caldwell.org/images/projects/art/art-and-illustration/large-doodle.jpg"
 )
 
 for i in "${urls[@]}"

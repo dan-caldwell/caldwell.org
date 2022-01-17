@@ -17,7 +17,7 @@ export const PostContext = createContext<ContextProps>({} as ContextProps);
 
 const PostProvider: React.FC = ({ children }) => {
     const [currentPost, setCurrentPost] = useState<string | null>(null);
-    const [openSection, setOpenSection] = useState<string | null>("post");
+    const [openSection, setOpenSection] = useState<string | null>("projects");
     const [menuOpen, setMenuOpen] = useState<boolean>(false);
     const [mainScrollPosition, setMainScrollPosition] = useState<number>(0);
     const [currentScrollItem, setCurrentScrollItem] = useState<number>(0);

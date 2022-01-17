@@ -9,24 +9,10 @@ export type ConfigSection = {
 }
 
 export const bucket = 'caldwell.org';
-export const projectsDir = 'post';
-export const postProperties = {
-    // Metadata about categories
-    categories: [
-        {
-            title: 'Code',
-            name: 'code'
-        },
-        {
-            title: 'Art',
-            name: 'art'
-        },
-    ]
-}
 
 export const sections = {
     projects: {
-        contentDir: 'post',
+        contentDir: 'projects',
         label: 'Projects',
         categories: [
             {
