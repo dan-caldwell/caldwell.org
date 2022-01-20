@@ -236,8 +236,8 @@ const ResultsTable = ({ results }) => (
             }
             {results.map(({ rank, url }) => (
                 <tr key={url} className="border-b">
-                    <td className="w-0 p-2 border-r">{rank}</td>
-                    <td className="p-2 text-ellipsis max-w-0 overflow-hidden whitespace-nowrap">
+                    <td className="w-1 p-2 border-r">{rank}</td>
+                    <td className="max-w-0 p-2 text-ellipsis overflow-hidden whitespace-nowrap">
                         <a className="text-blue-600 overflow-x-scroll whitespace-nowrap" href={`https://${url}`} target="_blank" rel="noopener noreferrer">{url}</a>
                     </td>
                 </tr>

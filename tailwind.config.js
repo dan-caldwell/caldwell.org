@@ -34,6 +34,6 @@ module.exports = {
   safelist: [
     'ml-4', 'max-w-2xs', 'p-0', 'shrink-0',
     'bg-gray-900', 'rounded-2xl', 'mr-4', 'shadow-lg',
-    'mb-4', 'p-2', 'xl:mr-4'
+    'mb-4', 'p-2', 'xl:mr-4', 'justify-center', 'flex-col-reverse'
   ]
 }
