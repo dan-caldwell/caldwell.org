@@ -29,6 +29,8 @@
 [√] Update favicon
 [√] RNS website redesign floated image broken on mobile Safari
 [√] Top sites table rank column too wide on mobile Safari
-[ ] Z index of next previous buttons are above navbar
+[√] Z index of next previous buttons are above navbar
 [ ] When you scroll down on mobile Safari, you can push the app height up, causing a white area at the bottom (example Wax Paper Animations)
 [ ] About section has the scroll area in the content of section, causing the "About" to be sticky
+[ ] Terminote first slide should have description as caption
+[ ] When you click on the same link on mobile menu, it should still exit out of the menu

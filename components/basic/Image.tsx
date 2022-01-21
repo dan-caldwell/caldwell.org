@@ -132,14 +132,14 @@ const Image: React.FC<ImageProps> = ({
             {enlarged ?
                 <>
                     <XButton
-                        className='fixed z-40 top-0 right-0 text-white w-8 h-8 mt-2 mr-2 cursor-pointer shadow-md rounded-full'
+                        className='fixed z-50 top-0 right-0 text-white w-8 h-8 mt-2 mr-2 cursor-pointer shadow-md rounded-full'
                         style={{
                             backgroundColor: 'rgba(0, 0, 0, 0.25)'
                         }}
                         onClick={() => setEnlarged(0)}
                     />
                     <div
-                        className="fixed z-20 inset-0 w-screen h-screen flex justify-center items-center overflow-y-scroll cursor-zoom-out"
+                        className="fixed z-30 inset-0 w-screen h-screen flex justify-center items-center overflow-y-scroll cursor-zoom-out"
                         onClick={() => setEnlarged(0)}
                         style={{
                             backgroundColor: 'rgba(0, 0, 0, 0.75)'
@@ -148,7 +148,7 @@ const Image: React.FC<ImageProps> = ({
                         <img
                             src={src || previewSrc}
                             className={`
-                                z-30 select-none m-auto object-contain
+                                z-40 select-none m-auto object-contain
                                 w-auto h-full max-h-full max-w-full
                             `}
                             alt={alt}

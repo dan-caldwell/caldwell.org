@@ -8,6 +8,11 @@
 }
 
 @layer base {
+
+    html {
+        @apply bg-gray-100;
+    }
+
     body {
         @apply overscroll-none p-0 m-0 bg-gray-100;
     }
