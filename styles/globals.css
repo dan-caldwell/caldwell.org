@@ -15,6 +15,8 @@
 
     body {
         @apply overscroll-none p-0 m-0 bg-gray-100;
+        min-height: 100vh;
+        min-height: -webkit-fill-available;
     }
 
     h1 {
@@ -193,6 +195,10 @@
 
     .h-screen-fix {
         height: calc(var(--app-height) - 4rem);
+    }
+
+    .h-screen-fix-full {
+        height: var(--app-height);
     }
 
     .min-h-screen-fix {

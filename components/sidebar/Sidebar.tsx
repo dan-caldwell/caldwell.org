@@ -47,8 +47,8 @@ const Sidebar: React.FC<SidebarProps> = ({ lists }) => {
     }, [menuOpen, mainScrollPosition]);
 
     return (
-        <div className={`Sidebar z-20 bg-white xl:fixed top-0 w-sidebar xl:border-r xl:border-l xl:border-gray-300 flex-col justify-between flex flex-shrink-0 xl:h-full ${menuOpen ? 'h-full min-h-screen-fix' : ''}`}>
-            <div className="flex-col flex-grow xl:overflow-hidden flex">
+        <div className={`Sidebar z-20 bg-white xl:fixed top-0 w-sidebar xl:border-r xl:border-l xl:border-gray-300 flex-col justify-between flex flex-shrink-0 xl:h-full ${menuOpen ? 'h-screen-fix-full overflow-hidden' : ''}`}>
+            <div className="flex-col flex-grow xl:overflow-hidden overflow-y-scroll xl:overflow-y-hidden flex">
                 <LogoHeader title="Caldwell.org" href="/" onClickHamburger={handleClickHamburger} hamburgerVisible={!menuOpen} />
                 <div className={`flex-col xl:overflow-hidden xl:flex xl:mt-0 mt-12 ${menuOpen ? "flex" : "hidden"}`}>
                     <div className="w-full flex">
