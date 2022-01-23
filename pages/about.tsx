@@ -34,10 +34,10 @@ const About = () => {
 
 
     return (
-        <ContentContainer className="w-container">
+        <ContentContainer className="w-container" layout="scroll">
             <AppHead title="About" />
             <Header title="About" />
-            <div className="overflow-y-scroll">
+            <div>
                 {ReactHtmlParser(html)}
             </div>
         </ContentContainer>
