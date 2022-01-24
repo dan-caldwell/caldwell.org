@@ -1,0 +1,18 @@
+app: random-wiki-image
+service: random-wiki-image
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  lambdaHashingVersion: '20201221'
+plugins:
+  - serverless-offline
+functions:
+  get_image:
+    handler: handler.get_image
+    events:
+      - http:
+          path: get_image
+          method: GET
