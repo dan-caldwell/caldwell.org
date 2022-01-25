@@ -1,0 +1,18 @@
+app: stock-wizard
+service: stock-wizard
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  lambdaHashingVersion: '20201221'
+plugins:
+  - serverless-offline
+functions:
+  get_daily_stock_pick:
+    handler: handler.get_daily_stock_pick
+    events:
+      - http:
+          path: get_daily_stock_pick
+          method: GET
