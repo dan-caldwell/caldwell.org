@@ -5,9 +5,17 @@ const s3 = new AWS.S3({
     region: 'us-east-1'
 });
 
-class Scraper {
+// Handles S3 fetching, scraping, and saving of data
+class DataIO {
 
-    // Gets ETF holdings from SSGA and saves to S3
+    /**
+     * Gets ETF holdings from SSGA and saves to S3
+     * 
+     * @param {{
+     *  name: string
+     * }} param0 
+     * @returns buffer
+     */
     static async saveETFHoldingsToS3({
         name
     }) {
@@ -31,8 +39,10 @@ class Scraper {
         }).promise();
         console.log(`Saved key: raw_etf_holdings/${name}.xlsx to bucket: stock-wizard`);
 
+        return data;
+
     }
 
 }
 
-module.exports = Scraper;
+module.exports = DataIO;

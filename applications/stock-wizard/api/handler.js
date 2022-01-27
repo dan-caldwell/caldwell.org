@@ -1,4 +1,5 @@
-const Scraper = require('./classes/Scraper');
+const DataIO = require('./classes/DataIO');
+const DataTransformer = require('./classes/DataTransformer');
 
 const allowedOrigins = [
     'http://localhost:3000',
@@ -29,8 +30,15 @@ module.exports.get_image = async event => {
 module.exports.create_stock_list = async event => {
     try {
 
-        await Scraper.saveETFHoldingsToS3({
+        const excelETFBuffer = await DataIO.saveETFHoldingsToS3({
             name: 'spy'
+        });
+        const holdingsObject = DataTransformer.convertExceltoObject({
+            buffer: excelETFBuffer
+        });
+
+        console.log({
+            holdingsObject
         });
 
     } catch (err) {
@@ -43,6 +51,6 @@ module.exports.create_stock_list = async event => {
                 statusCode: err.status || 400
             })
         }
-        
+
     }
 }

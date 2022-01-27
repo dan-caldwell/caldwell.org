@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.1063.0",
-    "axios": "^0.25.0"
+    "axios": "^0.25.0",
+    "convert-excel-to-json": "^1.7.0"
   }
 }
