@@ -5,6 +5,8 @@ const s3 = new AWS.S3({
     region: 'us-east-1'
 });
 
+const bucket = 'stock-wizard';
+
 // Handles S3 fetching, scraping, and saving of data
 class DataIO {
 
@@ -33,13 +35,70 @@ class DataIO {
         );
         
         await s3.putObject({
-            Bucket: 'stock-wizard',
-            Key: `raw_etf_holdings/${name}.xlsx`,
+            Bucket: bucket,
+            Key: `etf_holdings_xls/${name}.xlsx`,
             Body: data
         }).promise();
-        console.log(`Saved key: raw_etf_holdings/${name}.xlsx to bucket: stock-wizard`);
+        console.log(`Saved key: etf_holdings_xls/${name}.xlsx to bucket: ${bucket}`);
 
         return data;
+
+    }
+
+    /**
+     * Given a Javascript object, save to S3.
+     * 
+     * @param {{
+     *  data: object
+     *  name: string
+     *  folder: string
+     * }} param0 
+     */
+    static async putJSONObject({
+        data,
+        name,
+        folder
+    }) {
+        await s3.putObject({
+            Bucket: bucket,
+            Key: `${folder}/${name}.json`,
+            Body: JSON.stringify(data),
+            ContentType: 'application/json'
+        }).promise();
+        console.log(`Saved key: ${folder}/${name}.json to bucket: ${bucket}`);
+    }
+
+    static async getHoldingsObject({
+        name
+    }) {
+        const json = await s3.getObject({
+            Bucket: bucket,
+            Key: `etf_holdings_json/${name}.json`
+        }).promise();
+        return JSON.parse(json);
+    }
+
+    /**
+     * A wrapper for s3.getObject
+     * 
+     * @param {{
+     *  key: string
+     *  fallback: any
+     * }} param0 
+     * @returns any
+     */
+    static async getObject({
+        key,
+        fallback = '[]'
+    }) {
+        try {
+            return await s3.getObject({
+                Key: key,
+                Bucket: bucket
+            }).promise();
+        } catch (err) {
+            return fallback
+        }
 
     }
 

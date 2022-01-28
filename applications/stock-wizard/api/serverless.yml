@@ -22,12 +22,6 @@ provider:
 plugins:
   - serverless-offline
 functions:
-  get_daily_stock_pick:
-    handler: handler.get_daily_stock_pick
-    events:
-      - http:
-          path: get_daily_stock_pick
-          method: GET
   create_stock_list:
     handler: handler.create_stock_list
     events:
