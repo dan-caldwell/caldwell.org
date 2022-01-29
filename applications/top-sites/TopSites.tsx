@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import clone from 'clone';
 import Button from './components/Button';
-import { ArrowRight, Search } from '../../components/icons/icons';
+import { Search } from '../../components/icons/icons';
 import XButton from '../../components/basic/XButton';
 
 export type Rank = {
