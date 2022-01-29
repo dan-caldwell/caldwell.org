@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import DataTransformer from './api/classes/DataTransformer';
 
 const url = `https://d36rde6efmkp8.cloudfront.net`;
+const today = DataTransformer.currentDate();
 
 const StockWizard = () => {
     const [dailyPick, setDailyPick] = useState({
@@ -13,8 +14,7 @@ const StockWizard = () => {
     });
 
     useEffect(() => {
-        const today = DataTransformer.currentDate();
-        fetch(`${url}/random_stock_picks/days/${today}.json`)
+        fetch(`${url}/random_stock_picks/data/latest.json`)
             .then(res => res.json())
             .then(data => setDailyPick(data))
             .catch(err => {
@@ -30,10 +30,13 @@ const StockWizard = () => {
     }, []);
 
     return (
-        <div>
+        <div className="bg-white border border-gray-300 rounded-lg p-4 text-center">
+            <div className="italic mb-2">
+                Stock pick for {today}
+            </div>
             {dailyPick.ticker ? (
                 <div>
-                    You should buy {dailyPick.sharesToBuy} shares of {dailyPick.ticker} ({dailyPick.name})
+                    You should buy <strong>{dailyPick.sharesToBuy} shares</strong> of <strong>{dailyPick.ticker}</strong> ({dailyPick.name}).
                 </div>
             ) : (
                 <div>Loading...</div>

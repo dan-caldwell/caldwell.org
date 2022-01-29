@@ -69,6 +69,13 @@ module.exports.create_stock_list = async event => {
             folder: 'random_stock_picks/days'
         });
 
+        // Upload to the latest stock pick iteration
+        await DataIO.putJSONObject({
+            data: randomPickFormatted,
+            name: 'latest',
+            folder: 'random_stock_picks/data'
+        });
+
         // Add the random stock pick to the list of past picks
         const pastPicks = JSON.parse(await DataIO.getObject({
             key: 'random_stock_picks/data/past_picks.json',
