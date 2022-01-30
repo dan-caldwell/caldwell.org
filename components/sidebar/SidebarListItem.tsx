@@ -5,10 +5,11 @@ import { PostContext } from "../context/PostContext";
 
 export type SidebarListItemProps = {
     post: PostMeta,
-    currentPost: string | null
+    currentPost: string | null,
+    isLast: boolean
 }
 
-const SidebarListItem: React.FC<SidebarListItemProps> = ({ post, currentPost }) => {
+const SidebarListItem: React.FC<SidebarListItemProps> = ({ post, currentPost, isLast }) => {
     const [loaded, setLoaded] = useState(false);
     const { title, slug, thumbnail, path, thumbnail_bg, thumbnail_padding } = post;
     const container = useRef(null);
@@ -41,7 +42,7 @@ const SidebarListItem: React.FC<SidebarListItemProps> = ({ post, currentPost }) 
     }, [currentPost, loaded, menuOpen, fullSlug]);
 
     return (
-        <div className="SidebarListItem flex border-b border-gray-200" ref={container}>
+        <div className={`SidebarListItem flex border-gray-200 ${isLast ? '' : 'border-b'}`} ref={container}>
             <Link href={`/${fullSlug}/`} prefetch={false} scroll={currentPost !== slug}>
                 <a className="hover:no-underline w-full break-normal">
                     <div className={containerClass}>

@@ -8,7 +8,7 @@ const s3 = new AWS.S3({
     region: 'us-east-1'
 });
 
-const bucket = 'top-sites-list';
+const bucket = 'caldwell-apps';
 
 const chunkArray = (inputArray, perChunk) => {
     return inputArray.reduce((resultArray, item, index) => {
@@ -27,13 +27,6 @@ const chunkArray = (inputArray, perChunk) => {
 module.exports.fetchTopSites = async event => {
 
     try {
-
-        await s3.putObject({
-            Bucket: bucket,
-            Key: 'test.json',
-            Body: '{"hello": "world"}',
-            ContentType: 'application/json',
-        }).promise();
 
         const { data } = await axios.get('http://s3-us-west-1.amazonaws.com/umbrella-static/top-1m.csv.zip', {
             responseType: 'arraybuffer'
@@ -66,7 +59,7 @@ module.exports.fetchTopSites = async event => {
             for (const secondChar of alphabet) {
                 const filteredSecond = filtered.filter(item => item.url.charAt(1) === secondChar);
                 if (!filteredSecond.length) continue;
-                const key = `characters/${character}${secondChar}.json`;
+                const key = `top-sites/characters/${character}${secondChar}.json`;
                 const output = JSON.stringify(filteredSecond);
                 await s3.putObject({
                     Bucket: bucket,
@@ -81,7 +74,7 @@ module.exports.fetchTopSites = async event => {
         // Split domains by rank
         const chunks = chunkArray(csvData, 1000);
         for (const [index, chunk] of chunks.entries()) {
-            const key = `pages/${index + 1}.json`;
+            const key = `top-sites/pages/${index + 1}.json`;
             const output = JSON.stringify(chunk);
             // Save the JSON
             await s3.putObject({

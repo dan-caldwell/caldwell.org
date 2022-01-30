@@ -11,6 +11,11 @@ export type ConfigSection = {
 export const bucket = 'caldwell.org';
 
 export const sections = {
+    apps: {
+        contentDir: 'apps',
+        label: 'Apps',
+        categories: []
+    },
     projects: {
         contentDir: 'projects',
         label: 'Projects',
@@ -25,14 +30,4 @@ export const sections = {
             },
         ]
     },
-    blog: {
-        contentDir: 'blog',
-        label: 'Blog',
-        categories: [
-            {
-                title: 'Life',
-                name: 'life'
-            }
-        ]
-    }
 }

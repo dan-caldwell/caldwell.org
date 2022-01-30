@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import LogoHeader from './LogoHeader';
 import SidebarListItem from "./SidebarListItem";
 import { PostContext } from "../context/PostContext";
@@ -64,6 +64,7 @@ const Sidebar: React.FC<SidebarProps> = ({ lists }) => {
                             currentPost={currentPost}
                             key={list.name}
                             isLast={index === lists.length - 1}
+                            isFirst={index === 0}
                         />
                     ))}
                 </div>
@@ -80,14 +81,15 @@ const ExpandableList: React.FC<{
     onClick: (name: string) => void,
     openSection: string,
     currentPost: string,
-    isLast: boolean 
-}> = ({ list, onClick, openSection, currentPost, isLast }) => {
+    isLast: boolean,
+    isFirst: boolean
+}> = ({ list, onClick, openSection, currentPost, isLast, isFirst }) => {
 
     const isExpanded = openSection === list.name;
 
     const labelClassName = [
         `cursor-pointer py-2 px-4 border-gray-300 flex items-center hover:no-underline hover:bg-purple-50 text-purple-600`,
-        isLast && openSection && !isExpanded ? 'border-t' : 'border-b'
+        isLast && openSection && !isExpanded ? 'border-t border-b' : 'border-b',
     ].join(' ');
 
     return (
@@ -104,16 +106,22 @@ const ExpandableList: React.FC<{
                     ${isExpanded ? '' : 'hidden'}
                 `}
             >
-                {list.children.map((post: any) => {
+                {list.children.map((post: any, index: number) => {
                     if (!post.slug) {
                         // Format the name if necessary
                         const formattedName = post.name
                             .split('-')
                             .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
                             .join(' ');
-                        return <SidebarGroup key={post.name} title={post.title || formattedName} list={post.children} currentPost={currentPost} />
+                        return <SidebarGroup 
+                            key={post.name} 
+                            title={post.title || formattedName} 
+                            list={post.children} 
+                            currentPost={currentPost}
+                            isFirst={index === 0}
+                        />
                     } else {
-                        return <SidebarListItem currentPost={currentPost} key={post.slug} post={post} />
+                        return <SidebarListItem isLast={index === list.children.length -1} currentPost={currentPost} key={post.slug} post={post} />
                     }
                 })}
             </div>

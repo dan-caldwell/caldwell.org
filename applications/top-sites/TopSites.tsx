@@ -9,7 +9,7 @@ export type Rank = {
     rank: number;
 }
 
-const searchUrl = `https://top-sites-list.s3.amazonaws.com/`;
+const searchUrl = `https://s3.caldwell.org/top-sites/`;
 
 const TopSites = () => {
     const [searchString, setSearchString] = useState('');
