@@ -23,7 +23,7 @@ const SidebarListItem: React.FC<SidebarListItemProps> = ({ post, currentPost, is
     `;
 
     const thumbnailClassName = [
-        "w-16 h-16 mr-2 shrink-0 object-contain rounded",
+        "w-14 h-14 mr-2 shrink-0 object-contain rounded",
         thumbnail_bg ? `bg-${thumbnail_bg}` : 'bg-slate-900',
         thumbnail_padding ? `p-${thumbnail_padding}` : 'p-1'
     ].join(' ');
