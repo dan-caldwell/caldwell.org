@@ -48,7 +48,8 @@ module.exports.create_stock_list = async event => {
         });
 
         // Get a random stock to save for the daily stock pick
-        const randomPick = holdingsObject.holdings[Math.floor(Math.random() * holdingsObject.holdings.length)];
+        const randomPick = holdingsObject.holdings
+            .filter(holding => holding.Ticker && holding.Ticker !== "CASH_USD")[Math.floor(Math.random() * holdingsObject.holdings.length)];
 
         // Get a random number of shares to buy
         const numSharesToBuy = Math.round(Math.random() * (100 - 1) + 1);
