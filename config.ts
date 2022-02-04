@@ -20,19 +20,13 @@ export const sections = {
                 name: 'code'
             },
             {
+                title: 'Video',
+                name: 'video'
+            },
+            {
                 title: 'Art',
                 name: 'art'
             },
         ]
     },
-    blog: {
-        contentDir: 'blog',
-        label: 'Blog',
-        categories: [
-            {
-                title: 'Life',
-                name: 'life'
-            }
-        ]
-    }
 }
