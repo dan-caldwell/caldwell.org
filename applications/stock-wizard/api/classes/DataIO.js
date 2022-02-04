@@ -5,7 +5,7 @@ const s3 = new AWS.S3({
     region: 'us-east-1'
 });
 
-const bucket = 'stock-wizard';
+const bucket = 'caldwell-apps';
 
 // Handles S3 fetching, scraping, and saving of data
 class DataIO {
@@ -36,10 +36,10 @@ class DataIO {
         
         await s3.putObject({
             Bucket: bucket,
-            Key: `etf_holdings_xls/${name}.xlsx`,
+            Key: `stock-wizard/etf_holdings_xls/${name}.xlsx`,
             Body: data
         }).promise();
-        console.log(`Saved key: etf_holdings_xls/${name}.xlsx to bucket: ${bucket}`);
+        console.log(`Saved key: stock-wizard/etf_holdings_xls/${name}.xlsx to bucket: ${bucket}`);
 
         return data;
 
@@ -61,11 +61,11 @@ class DataIO {
     }) {
         await s3.putObject({
             Bucket: bucket,
-            Key: `${folder}/${name}.json`,
+            Key: `stock-wizard/${folder}/${name}.json`,
             Body: JSON.stringify(data),
             ContentType: 'application/json'
         }).promise();
-        console.log(`Saved key: ${folder}/${name}.json to bucket: ${bucket}`);
+        console.log(`Saved key: stock-wizard/${folder}/${name}.json to bucket: ${bucket}`);
     }
 
     static async getHoldingsObject({
@@ -73,7 +73,7 @@ class DataIO {
     }) {
         const json = await s3.getObject({
             Bucket: bucket,
-            Key: `etf_holdings_json/${name}.json`
+            Key: `stock-wizard/etf_holdings_json/${name}.json`
         }).promise();
         return JSON.parse(json);
     }
@@ -93,7 +93,7 @@ class DataIO {
     }) {
         try {
             return await s3.getObject({
-                Key: key,
+                Key: `stock-wizard/${key}`,
                 Bucket: bucket
             }).promise();
         } catch (err) {

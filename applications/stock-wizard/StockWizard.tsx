@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import DataTransformer from './api/classes/DataTransformer';
 
-const url = `https://d36rde6efmkp8.cloudfront.net`;
 const today = DataTransformer.currentDate();
 
 const StockWizard = () => {
@@ -14,7 +13,7 @@ const StockWizard = () => {
     });
 
     useEffect(() => {
-        fetch(`${url}/random_stock_picks/data/latest.json`)
+        fetch(`https://s3.caldwell.org/stock-wizard/random_stock_picks/data/latest.json`)
             .then(res => res.json())
             .then(data => setDailyPick(data))
             .catch(err => {
