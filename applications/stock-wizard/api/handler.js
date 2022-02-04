@@ -1,5 +1,6 @@
 const DataIO = require('./classes/DataIO');
 const DataTransformer = require('./classes/DataTransformer');
+const DateHelper = require('./classes/DateHelper');
 
 const allowedOrigins = [
     'http://localhost:3000',
@@ -52,7 +53,7 @@ module.exports.create_stock_list = async event => {
         // Get a random number of shares to buy
         const numSharesToBuy = Math.round(Math.random() * (100 - 1) + 1);
 
-        const currentDate = DataTransformer.currentDate();
+        const currentDate = DateHelper.currentDate();
 
         const randomPickFormatted = {
             name: randomPick.Name,

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import DataTransformer from './api/classes/DataTransformer';
+import DateHelper from './api/classes/DateHelper';
 
-const today = DataTransformer.currentDate();
+const today = DateHelper.currentDate();
 
 const StockWizard = () => {
     const [dailyPick, setDailyPick] = useState({
