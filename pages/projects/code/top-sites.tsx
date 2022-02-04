@@ -1,7 +1,7 @@
-import Post from '../[...slug]';
-import TopSites from '../../applications/top-sites/TopSites';
-import Anchor from '../../components/basic/Anchor';
-export { getStaticProps } from '../../utils/next-page';
+import Post from '../../[...slug]';
+import TopSites from '../../../applications/top-sites/TopSites';
+import Anchor from '../../../components/basic/Anchor';
+export { getStaticProps } from '../../../utils/next-page';
 
 const Index = (props) => {
     return (

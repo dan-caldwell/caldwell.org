@@ -12,15 +12,20 @@ export type SidebarProps = {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ lists }) => {
-    const { 
-        currentPost, 
-        menuOpen, 
-        setMenuOpen, 
-        openSection, 
+    const {
+        currentPost,
+        menuOpen,
+        setMenuOpen,
+        openSection,
         setOpenSection,
         mainScrollPosition,
         setMainScrollPosition,
     } = useContext(PostContext);
+
+    const containerClassName = [
+        `Sidebar z-20 bg-white top-0 w-sidebar xl:border-r xl:border-l xl:border-gray-300 flex flex-col justify-between flex-shrink-0 xl:h-full`,
+        menuOpen ? 'h-screen-fix-full' : ''
+    ].join(' ');
 
     const handleClickHamburger = () => {
         const newMenuOpen = !menuOpen;
@@ -47,7 +52,7 @@ const Sidebar: React.FC<SidebarProps> = ({ lists }) => {
     }, [menuOpen, mainScrollPosition]);
 
     return (
-        <div className={`Sidebar z-20 bg-white xl:fixed top-0 w-sidebar xl:border-r xl:border-l xl:border-gray-300 flex-col justify-between flex flex-shrink-0 xl:h-full ${menuOpen ? 'h-screen-fix-full overflow-hidden' : ''}`}>
+        <div className={containerClassName}>
             <div className="flex-col flex-grow xl:overflow-hidden overflow-y-scroll xl:overflow-y-hidden flex">
                 <LogoHeader title="Caldwell.org" href="/" onClickHamburger={handleClickHamburger} hamburgerVisible={!menuOpen} />
                 <div className={`flex-col xl:overflow-hidden xl:flex xl:mt-0 mt-12 ${menuOpen ? "flex" : "hidden"}`}>
@@ -113,15 +118,15 @@ const ExpandableList: React.FC<{
                             .split('-')
                             .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
                             .join(' ');
-                        return <SidebarGroup 
-                            key={post.name} 
-                            title={post.title || formattedName} 
-                            list={post.children} 
+                        return <SidebarGroup
+                            key={post.name}
+                            title={post.title || formattedName}
+                            list={post.children}
                             currentPost={currentPost}
                             isFirst={index === 0}
                         />
                     } else {
-                        return <SidebarListItem isLast={index === list.children.length -1} currentPost={currentPost} key={post.slug} post={post} />
+                        return <SidebarListItem isLast={index === list.children.length - 1} currentPost={currentPost} key={post.slug} post={post} />
                     }
                 })}
             </div>
