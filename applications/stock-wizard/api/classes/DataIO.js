@@ -99,7 +99,6 @@ class DataIO {
         } catch (err) {
             return fallback
         }
-
     }
 
 }
