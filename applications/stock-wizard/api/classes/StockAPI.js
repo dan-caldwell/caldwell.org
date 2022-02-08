@@ -1,5 +1,4 @@
 const axios = require('axios');
-require('dotenv').config();
 const baseURL = `https://www.${process.env.STOCK_DATA_DOMAIN}/market-data`;
 
 class StockAPI {

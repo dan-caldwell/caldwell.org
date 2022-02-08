@@ -1,6 +1,7 @@
 const StockAPI = require("./StockAPI");
 const DataIO = require("./DataIO");
 const Average = require("./Average");
+const DateHelper = require("./DateHelper");
 
 class TickerData {
 
@@ -59,21 +60,43 @@ class TickerData {
         data,
         etfName
     }) {
-        const medians = Average.average({
+        const median = Average.average({
             data,
             median: true
         });
-        const averages = Average.average({
+        const average = Average.average({
             data,
         });
+        const putData = {
+            average,
+            median,
+            lastUpdated: new Date().toString(),
+            date: DateHelper.currentDate(),
+        }
+        // Save the latest data
         await DataIO.putJSONObject({
-            data: {
-                averages,
-                medians,
-            },
+            data: putData,
             name: etfName,
-            folder: `etf_averages`
+            folder: `etf_averages/etfs`
         });
+        // Save the data for the day (for historical purposes)
+        // Add the random stock pick to the list of past picks
+        const pastAveragesRaw = await DataIO.getObject({
+            key: 'etf_averages/data/average-history.json',
+            fallback: '[]'
+        });
+        const pastAverages = JSON.parse(pastAveragesRaw.Body.toString());
+
+        const dateAlreadyAdded = pastAverages.find(item => item?.date === pick.date);
+        if (!dateAlreadyAdded) {
+            pastAverages.push(putData);
+
+            await DataIO.putJSONObject({
+                data: pastAverages,
+                name: 'average-history',
+                folder: 'etf_averages/data'
+            });
+        }
     }
 
 }

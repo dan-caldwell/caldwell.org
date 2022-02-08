@@ -98,7 +98,9 @@ class DataIO {
                 Bucket: bucket
             }).promise();
         } catch (err) {
-            return fallback
+            return {
+                Body: fallback
+            }
         }
     }
 

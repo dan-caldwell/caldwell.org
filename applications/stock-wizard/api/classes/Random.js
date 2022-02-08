@@ -1,4 +1,4 @@
-const DataTransformer = require('./DataTransformer');
+const DateHelper = require('./DateHelper');
 const DataIO = require('./DataIO');
 
 class Random {
@@ -11,7 +11,7 @@ class Random {
         // Get a random number of shares to buy
         const numSharesToBuy = Math.round(Math.random() * (100 - 1) + 1);
 
-        const currentDate = DataTransformer.currentDate();
+        const currentDate = DateHelper.currentDate();
 
         return {
             name: randomPick.Name,
@@ -40,10 +40,11 @@ class Random {
         });
 
         // Add the random stock pick to the list of past picks
-        const pastPicks = JSON.parse(await DataIO.getObject({
-            key: 'random_stock_picks/data/past_picks.json',
+        const pastPicksRaw = await DataIO.getObject({
+            key: 'random_stock_picks/data/pick-history.json',
             fallback: '[]'
-        }));
+        });
+        const pastPicks = JSON.parse(pastPicksRaw.Body.toString());
 
         const dateAlreadyAdded = pastPicks.find(item => item?.date === pick.date);
         if (!dateAlreadyAdded) {

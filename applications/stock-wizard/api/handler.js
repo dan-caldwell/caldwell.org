@@ -1,8 +1,8 @@
+require('dotenv').config();
 const DataIO = require('./classes/DataIO');
 const DataTransformer = require('./classes/DataTransformer');
 const Random = require('./classes/Random');
 const TickerData = require('./classes/TickerData');
-const DateHelper = require('./classes/DateHelper');
 
 const allowedOrigins = [
     'http://localhost:3000',
