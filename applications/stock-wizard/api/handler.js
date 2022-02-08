@@ -1,5 +1,7 @@
 const DataIO = require('./classes/DataIO');
 const DataTransformer = require('./classes/DataTransformer');
+const Random = require('./classes/Random');
+const TickerData = require('./classes/TickerData');
 
 const allowedOrigins = [
     'http://localhost:3000',
@@ -39,67 +41,42 @@ module.exports.create_stock_list = async event => {
             buffer: excelETFBuffer
         });
 
+        const filteredHoldings = holdingsObject.holdings.filter(item => item.Ticker && item.Ticker !== "CASH_USD");
+
         // Save the holdings
         await DataIO.putJSONObject({
-            data: holdingsObject,
+            data: filteredHoldings,
             name,
             folder: `etf_holdings_json`
         });
 
-        // Get a random stock to save for the daily stock pick
-        const randomPick = holdingsObject.holdings[Math.floor(Math.random() * holdingsObject.holdings.length)];
-
-        // Get a random number of shares to buy
-        const numSharesToBuy = Math.round(Math.random() * (100 - 1) + 1);
-
-        const currentDate = DataTransformer.currentDate();
-
-        const randomPickFormatted = {
-            name: randomPick.Name,
-            ticker: randomPick.Ticker,
-            sector: randomPick.Sector,
-            sharesToBuy: numSharesToBuy,
-            date: currentDate
-        }
-
-        // Upload the data to S3
-        await DataIO.putJSONObject({
-            data: randomPickFormatted,
-            name: currentDate,
-            folder: 'random_stock_picks/days'
+        // Get the random stock pick
+        const randomPick = Random.getRandomPickFromHoldings({
+            holdings: filteredHoldings
         });
 
-        // Upload to the latest stock pick iteration
-        await DataIO.putJSONObject({
-            data: randomPickFormatted,
-            name: 'latest',
-            folder: 'random_stock_picks/data'
+        // Save the random stock pick
+        await Random.saveRandomPickToS3({
+            pick: randomPick
         });
 
-        // Add the random stock pick to the list of past picks
-        const pastPicks = JSON.parse(await DataIO.getObject({
-            key: 'random_stock_picks/data/past_picks.json',
-            fallback: '[]'
-        }));
+        // Scrape list of holdings and save
+        const totalData = await TickerData.saveIndividualTickerData({
+            holdings: filteredHoldings,
+            etfName: name
+        });
 
-        const dateAlreadyAdded = pastPicks.find(item => item?.date === currentDate);
-        if (!dateAlreadyAdded) {
-            pastPicks.push(randomPickFormatted);
+        // Save the averages
+        await TickerData.saveAverages({
+            data: totalData,
+            etfName: name
+        });
 
-            await DataIO.putJSONObject({
-                data: pastPicks,
-                name: 'pick-history',
-                folder: 'random_stock_picks/data'
-            });
-        }
-
-        const message = `Successfully created stock list data for ${currentDate}`;
-
-        console.log(message);
+        console.log(`Successfully created stock list data for ${randomPick.date}`);
 
         return {
             statusCode: 200,
-            message
+            body: 'Success'
         }
 
     } catch (err) {

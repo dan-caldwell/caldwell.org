@@ -1,16 +1,24 @@
 const axios = require('axios');
-const decodedURIComponent = `{"ticker":"tsla","path":"/tsla"}`;
-const url = `https://www.${process.env.STOCK_DATA_DOMAIN}/market-data/quotes/TSLA?id=${encodeURIComponent(decodedURIComponent)}&type=quotes_chart`;
+require('dotenv').config();
+const baseURL = `https://www.${process.env.STOCK_DATA_DOMAIN}/market-data`;
 
 class StockAPI {
 
-    static async lookupTicker() {
-        const res = await axios.get(url, {});
-        console.log(res.data.data.quoteData.Financials);
+    static async lookupTicker({
+        ticker
+    }) {
+        try {
+            const formattedTicker = ticker.toLowerCase();
+            const decodedURIComponent = `{"ticker":"${formattedTicker}","path":"/${formattedTicker}"}`;
+            const res = await axios.get(`${baseURL}/quotes/${formattedTicker.toUpperCase()}?id=${encodeURIComponent(decodedURIComponent)}&type=quotes_chart`, {});
+            return res.data.data.quoteData.Financials;
+        } catch (err) {
+            console.error(err);
+            return null;
+        }
+
     }
 
 }
-
-StockAPI.lookupTicker();
 
 module.exports = StockAPI;
