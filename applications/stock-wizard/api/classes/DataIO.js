@@ -28,7 +28,7 @@ class DataIO {
         }
 
         const { data } = await axios.get(
-            `https://www.ssga.com/us/en/intermediary/etfs/library-content/products/fund-data/etfs/us/holdings-daily-us-en-${name.toLowerCase()}.xlsx`,
+            `https://www.${process.env.ETF_HOLDINGS_CSV_DOMAIN}/us/en/intermediary/etfs/library-content/products/fund-data/etfs/us/holdings-daily-us-en-${name.toLowerCase()}.xlsx`,
             {
                 responseType: 'arraybuffer'
             }
@@ -57,7 +57,8 @@ class DataIO {
     static async putJSONObject({
         data,
         name,
-        folder
+        folder,
+        extraLogInfo
     }) {
         await s3.putObject({
             Bucket: bucket,
@@ -65,7 +66,7 @@ class DataIO {
             Body: JSON.stringify(data),
             ContentType: 'application/json'
         }).promise();
-        console.log(`Saved key: stock-wizard/${folder}/${name}.json to bucket: ${bucket}`);
+        console.log(`Saved key: stock-wizard/${folder}/${name}.json to bucket: ${bucket}`, extraLogInfo);
     }
 
     static async getHoldingsObject({
@@ -97,9 +98,10 @@ class DataIO {
                 Bucket: bucket
             }).promise();
         } catch (err) {
-            return fallback
+            return {
+                Body: fallback
+            }
         }
-
     }
 
 }
