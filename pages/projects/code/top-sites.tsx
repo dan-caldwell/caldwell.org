@@ -1,7 +1,9 @@
 import Post from '../../[...slug]';
 import TopSites from '../../../applications/top-sites/TopSites';
 import Anchor from '../../../components/basic/Anchor';
-export { getStaticProps } from '../../../utils/next-page';
+import { getStaticMeta } from '../../../utils/next-page';
+
+export const getStaticProps = async () => await getStaticMeta(`projects/code/top-sites`);
 
 const Index = (props) => {
     return (

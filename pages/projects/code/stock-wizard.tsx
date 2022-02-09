@@ -1,6 +1,8 @@
 import StockWizard from '../../../applications/stock-wizard/StockWizard';
 import Post from '../../[...slug]';
-export { getStaticProps } from '../../../utils/next-page';
+import { getStaticMeta } from '../../../utils/next-page';
+
+export const getStaticProps = async () => await getStaticMeta(`projects/code/stock-wizard`);
 
 const Index = (props) => {
     return (
