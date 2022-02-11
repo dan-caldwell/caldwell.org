@@ -87,7 +87,7 @@ class TickerData {
         });
         const pastAverages = JSON.parse(pastAveragesRaw.Body.toString());
 
-        const dateAlreadyAdded = pastAverages.find(item => item?.date === pick.date);
+        const dateAlreadyAdded = pastAverages.find(item => item?.date === putData.date);
         if (!dateAlreadyAdded) {
             pastAverages.push(putData);
 

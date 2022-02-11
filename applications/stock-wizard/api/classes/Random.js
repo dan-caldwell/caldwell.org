@@ -18,7 +18,8 @@ class Random {
             ticker: randomPick.Ticker,
             sector: randomPick.Sector,
             sharesToBuy: numSharesToBuy,
-            date: currentDate
+            date: currentDate,
+            sellOn: DateHelper.randomDate(currentDate, DateHelper.addYearsToDateString(currentDate, 1))
         }
     }
 
