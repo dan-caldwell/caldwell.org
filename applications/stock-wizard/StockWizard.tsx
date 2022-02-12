@@ -3,6 +3,7 @@ import DateHelper from './api/classes/DateHelper';
 import DataPointListItem from './components/DataPointListItem';
 
 const today = DateHelper.currentDate();
+const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 const StockWizard = () => {
     const [dailyPick, setDailyPick] = useState({
@@ -10,7 +11,8 @@ const StockWizard = () => {
         ticker: null,
         sector: null,
         sharesToBuy: null,
-        date: null
+        date: null,
+        sellOn: null
     });
     const [spyAverages, setSpyAverages] = useState({
         average: null,
@@ -28,6 +30,7 @@ const StockWizard = () => {
                     ticker: 'TSLA',
                     sector: 'Technology',
                     sharesToBuy: '50',
+                    sellOn: today,
                     date: today
                 })
             });
@@ -39,6 +42,8 @@ const StockWizard = () => {
             });
     }, []);
 
+    const sellOnObj = dailyPick.sellOn ? new Date(dailyPick.sellOn) : new Date();
+
     return (
         <>
             <div className="bg-white border border-gray-300 rounded-lg p-4 mb-4">
@@ -47,7 +52,7 @@ const StockWizard = () => {
                 </div>
                 {dailyPick.ticker ? (
                     <div>
-                        You should buy <strong>{dailyPick.sharesToBuy} shares</strong> of <strong>{dailyPick.ticker}</strong> ({dailyPick.name}).
+                        You should buy <strong>{dailyPick.sharesToBuy} shares</strong> of <strong>{dailyPick.ticker}</strong> ({dailyPick.name}) and you should sell on <strong>{months[sellOnObj.getMonth()]} {sellOnObj.getDate()}, {sellOnObj.getFullYear()}</strong>.
                     </div>
                 ) : (
                     <div>Loading...</div>
@@ -55,7 +60,7 @@ const StockWizard = () => {
             </div>
             <div className="bg-white border border-gray-300 rounded-lg p-4">
                 <div className="underline mb-2">
-                    SPY averages for {today}
+                    S&P 500 averages for {today}
                 </div>
                 {spyAverages.average ? (
                     <div className="text-left flex flex-col text-md">
