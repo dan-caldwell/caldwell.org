@@ -5,6 +5,17 @@ import DataPointListItem from './components/DataPointListItem';
 const today = DateHelper.currentDate();
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
+const formatObjectKeyTitle = (title: string) => {
+    return (title.match(/[A-Z][a-z]+|[0-9-]+/g) || title.split(' '))
+        .join(' ')
+        .replace('Peg', 'Price/Earnings-to-Growth')
+        .replace('Pe', 'Price/Earnings')
+        .replace('Pb', 'Price/Book')
+        .replace('Ps', 'Price/Sales')
+        .replace('Current', '')
+        .replace('Trailing', '');
+}
+
 const StockWizard = () => {
     const [dailyPick, setDailyPick] = useState({
         name: null,
@@ -44,6 +55,12 @@ const StockWizard = () => {
 
     const sellOnObj = dailyPick.sellOn ? new Date(dailyPick.sellOn) : new Date();
 
+    const currentAverages = Object.entries(spyAverages.average || {}).filter(item => item[0].includes('Current'));
+    const disallowedKeys = ['Current', 'ID', 'Name', 'SEDOL', 'Weight', 'Shares Held'];
+    const historicalAverages = Object.entries(spyAverages.average || {}).filter(item => {
+        return !disallowedKeys.find(key => item[0].includes(key))
+    });
+
     return (
         <>
             <div className="bg-white border border-gray-300 rounded-lg p-4 mb-4">
@@ -63,36 +80,28 @@ const StockWizard = () => {
                     S&P 500 averages for {today}
                 </div>
                 {spyAverages.average ? (
-                    <div className="text-left flex flex-col text-md">
-                        <DataPointListItem
-                            title="P/E ratio"
-                            value={spyAverages.average.PriceToEarningsRatio}
-                        />
-                        <DataPointListItem
-                            title="Yield"
-                            value={spyAverages.average.Yield}
-                        />
-                        <DataPointListItem
-                            title="% of float shorted"
-                            value={spyAverages.average.PercentOfFloatShorted}
-                        />
-                        <DataPointListItem
-                            title="Annualized dividend"
-                            value={spyAverages.average.AnnualizedDividend}
-                        />
-                        <DataPointListItem
-                            title="Estimated P/E next year"
-                            value={spyAverages.average.EstimatedPriceToEarningsRatioNextYear}
-                        />
-                        <DataPointListItem
-                            title="Sales per employee"
-                            value={spyAverages.average.SalesPerEmployee}
-                        />
-                        <DataPointListItem
-                            title="Beta"
-                            value={spyAverages.average.Beta}
-                        />
-                    </div>
+                    <>
+                        <div className="border-b mb-2 border-gray-300">Current</div>
+                        <div className="text-left flex flex-col text-md">
+                            {currentAverages.map(([key, value]) => {
+                                return <DataPointListItem
+                                    title={formatObjectKeyTitle(key)}
+                                    value={value}
+                                    key={key}
+                                />
+                            })}
+                        </div>
+                        <div className="mt-4 mb-2 border-b border-gray-300">Historical</div>
+                        <div className="text-left flex flex-col text-md">
+                            {historicalAverages.map(([key, value]) => {
+                                return <DataPointListItem
+                                    title={formatObjectKeyTitle(key)}
+                                    value={value}
+                                    key={key}
+                                />
+                            })}
+                        </div>
+                    </>
                 ) : (
                     <div>Loading...</div>
                 )}
