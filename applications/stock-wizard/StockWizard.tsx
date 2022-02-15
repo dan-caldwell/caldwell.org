@@ -13,7 +13,10 @@ const formatObjectKeyTitle = (title: string) => {
         .replace('Pb', 'Price/Book')
         .replace('Ps', 'Price/Sales')
         .replace('Current', '')
-        .replace('Trailing', '');
+        .replace('Trailing', '')
+        .replace('1 Quarters', '1 Quarter')
+        .replace('Quarterly', '')
+        .replace('1 Ago', '1 Trailing Year Ago');
 }
 
 const StockWizard = () => {
@@ -57,6 +60,11 @@ const StockWizard = () => {
 
     const currentAverages = Object.entries(spyAverages.average || {}).filter(item => item[0].includes('Current'));
 
+    const excludedKeys = ['Current', 'ID', 'SEDOL', 'Weight', 'Shares Held', 'Name'];
+    const historicalAverages = Object.entries(spyAverages.average || {}).filter(item => {
+        return !excludedKeys.find(key => item[0].includes(key))
+    });
+
     return (
         <>
             <div className="bg-white border border-gray-300 rounded-lg p-4 mb-4">
@@ -77,8 +85,19 @@ const StockWizard = () => {
                 </div>
                 {spyAverages.average ? (
                     <>
+                        <div className="mt-2 border-b border-gray-300 mb-2">Current</div>
                         <div className="text-left flex flex-col text-md">
                             {currentAverages.map(([key, value]) => {
+                                return <DataPointListItem
+                                    title={formatObjectKeyTitle(key)}
+                                    value={value}
+                                    key={key}
+                                />
+                            })}
+                        </div>
+                        <div className="mt-2 border-b border-gray-300 mb-2">Historical</div>
+                        <div className="text-left flex flex-col text-md">
+                            {historicalAverages.map(([key, value]) => {
                                 return <DataPointListItem
                                     title={formatObjectKeyTitle(key)}
                                     value={value}

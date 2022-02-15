@@ -26,15 +26,19 @@ class StockAPI {
                     } else if (item[key]) {
                         // Sort by asOfDate
                         item[key].sort((a, b) => {
-                            return new Date(a?.asOfDate).getTime() - new Date(b?.asOfDate).getTime()
+                            return new Date(b?.asOfDate).getTime() - new Date(a?.asOfDate).getTime()
                         });
 
                         // Get the values in the as-of date
                         for (const [index, obj] of item[key].entries()) {
                             const keyStart = key.charAt(0).toUpperCase() + key.slice(1);
                             let keyName = keyStart + (obj?.asOfDate ? `_${obj.asOfDate}` : '');
-                            if (obj?.periodType === 'TTM' && index === item[key].length - 1) {
+                            if (obj?.periodType === 'TTM' && index === 0) {
                                 keyName = keyStart + '_Current';
+                            } else if (obj?.periodType === 'TTM') {
+                                keyName = `${keyStart}_${index}_TTMAgo`;
+                            } else if (obj?.periodType === '3M') {
+                                keyName = `${keyStart}_${index + 1}_QuartersAgo`;
                             }
                             out.push([keyName, obj?.reportedValue?.raw]);
                         }
