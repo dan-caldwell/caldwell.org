@@ -29,4 +29,14 @@ export const sections = {
             },
         ]
     },
+    blog: {
+        contentDir: 'blog',
+        label: 'Blog',
+        categories: [
+            {
+                title: 'Data',
+                name: 'data'
+            },
+        ]
+    },
 }

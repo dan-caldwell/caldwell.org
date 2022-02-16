@@ -85,26 +85,28 @@ const StockWizard = () => {
                 </div>
                 {spyAverages.average ? (
                     <>
-                        <div className="mt-2 border-b border-gray-300 mb-2">Current</div>
-                        <div className="text-left flex flex-col text-md">
-                            {currentAverages.map(([key, value]) => {
-                                return <DataPointListItem
-                                    title={formatObjectKeyTitle(key)}
-                                    value={value}
-                                    key={key}
-                                />
-                            })}
-                        </div>
-                        <div className="mt-2 border-b border-gray-300 mb-2">Historical</div>
-                        <div className="text-left flex flex-col text-md">
-                            {historicalAverages.map(([key, value]) => {
-                                return <DataPointListItem
-                                    title={formatObjectKeyTitle(key)}
-                                    value={value}
-                                    key={key}
-                                />
-                            })}
-                        </div>
+                        <div className="mt-4 mb-2 font-bold">Current</div>
+                        <table className="border border-gray-300 w-full">
+                            <tbody>
+                                {currentAverages.map(([key, value]) => (
+                                    <tr key={key} className="border-b border-gray-300">
+                                        <td className="p-2 border-r border-gray-300">{formatObjectKeyTitle(key)}</td>
+                                        <td className="p-2">{value}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                        <div className="mt-6 font-bold mb-2">Historical</div>
+                        <table className="border border-gray-300 w-full">
+                            <tbody>
+                                {historicalAverages.map(([key, value]) => (
+                                    <tr key={key} className="border-b border-gray-300">
+                                        <td className="p-2 border-r border-gray-300">{formatObjectKeyTitle(key)}</td>
+                                        <td className="p-2">{value}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     </>
                 ) : (
                     <div>Loading...</div>

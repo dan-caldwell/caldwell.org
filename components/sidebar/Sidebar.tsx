@@ -94,7 +94,7 @@ const ExpandableList: React.FC<{
 
     const labelClassName = [
         `cursor-pointer py-2 px-4 border-gray-300 flex items-center hover:no-underline hover:bg-purple-50 text-purple-600`,
-        isLast && openSection && !isExpanded ? 'border-t border-b' : 'border-b',
+        isLast && openSection && !isExpanded ? 'border-t' : 'border-b',
     ].join(' ');
 
     return (

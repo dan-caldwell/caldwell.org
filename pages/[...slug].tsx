@@ -5,7 +5,7 @@ import PostUtils from '../utils/PostUtils';
 import { PostContext } from '../components/context/PostContext';
 import ContentContainer from '../components/ContentContainer';
 import Image from '../components/basic/Image';
-import SpinScroll from '../components/scroll/spinScroll';
+import Table from '../components/basic/Table';
 import TitleCard from '../components/cards/TitleCard';
 import PrintPageContainer from '../components/content/PrintPageContainer';
 import Md from '../components/content/Md';
@@ -19,7 +19,7 @@ import fs from 'fs-extra';
 const mdxComponents = {
     YouTube,
     Image,
-    SpinScroll,
+    Table,
     TitleCard,
     PrintPageContainer,
     Md,

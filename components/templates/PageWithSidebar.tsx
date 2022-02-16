@@ -2,12 +2,13 @@ import React, { ReactNode, useContext, useEffect, useRef } from "react";
 import Sidebar from "../sidebar/Sidebar";
 import { PostContext } from "../context/PostContext";
 import ProjectsList from '../../json/projects-post-list.json';
+import BlogList from '../../json/blog-post-list.json';
 
 export type PageWithSidebarProps = {
     children: ReactNode,
 }
 
-const listsOfPosts = [ProjectsList].map(item => JSON.parse(item));
+const listsOfPosts = [ProjectsList, BlogList].map(item => JSON.parse(item));
 
 const PageWithSidebar: React.FC<PageWithSidebarProps> = ({ children }) => {
     const { menuOpen, currentPost } = useContext(PostContext);
