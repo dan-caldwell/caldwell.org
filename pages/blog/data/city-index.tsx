@@ -11,10 +11,12 @@ const Index = (props) => {
 
     return (
         <Post {...props}>
-            City Index
-            <Table 
+            <Table
                 headers={headers}
                 rows={rows}
+                headerSortKeys={{
+                    '2020 population density (mi)': (value: string) => parseInt(value.replace(/,/g, ''))
+                }}
             />
         </Post>
     )

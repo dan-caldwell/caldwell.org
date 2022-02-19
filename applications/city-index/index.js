@@ -22,26 +22,35 @@ axios.get(`https://en.wikipedia.org/w/api.php?action=parse&page=List_of_United_S
         } = res;
         const output = {
             headers: [
-                '2020 rank', 
-                'City', 
-                'State', 
-                '2020 census', 
-                '2010 census', 
-                'Change', 
-                '2020 land area (mi)', 
-                '2020 land area (km)', 
-                '2020 population density (mi)', 
-                '2020 population density (km)', 
-                'Location'
+                '2020 rank',
+                'City',
+                'State',
+                '2020 census',
+                '2010 census',
+                'Change',
+                '2020 land area (mi)',
+                //'2020 land area (km)', 
+                '2020 population density (mi)',
+                //'2020 population density (km)', 
+                //'Location'
             ],
             rows: []
         };
+        // Filter the rows
+        const excludedIndexes = [7, 9, 10];
         const root = parse(html);
         const table = root.querySelector('table.sortable');
         const rows = table.querySelectorAll('tbody tr')
-            .map(row => 
-                row.childNodes.map(child => child.innerText.replace('\n', '')).filter(child => child)
-            );
+            .map(row =>
+                row.childNodes
+                    .map(child =>
+                        child.innerText
+                            .replace('\n', '')
+                            .replace(/&#91;.*?&#93;/g, '') // Replace the brackets
+                    )
+                    .filter(child => child)
+                    .filter((child, index) => !excludedIndexes.includes(index))
+            ).slice(1);
         output.rows = rows;
 
         await s3.putObject({

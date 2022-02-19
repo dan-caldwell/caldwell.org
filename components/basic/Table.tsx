@@ -1,23 +1,51 @@
+import { useState } from "react";
+
 const Table = ({
-    headers,
-    rows
+    headers: rawHeaders,
+    rows: rawRows,
+    headerSortKeys
 }) => {
+    const [headers, setHeaders] = useState(rawHeaders);
+    const [rows, setRows] = useState(rawRows);
+
+    const sortRows = (header: string, index: number) => {
+        const rowValues = rows.map(row => row[index]);
+
+        if (headerSortKeys[header]) {
+            console.log({
+                header,
+                sorted: rowValues.sort((a, b) => {
+                    return headerSortKeys[header](b) - headerSortKeys[header](a)
+                })
+            })
+        }
+    }
 
     return (
         <table className="bg-white border border-gray-300 text-xs">
             <thead>
-                <tr>
-                    {headers.map((header: string) => (
-                        <th className="border border-gray-300" key={header}>{header}</th>
+                <tr
+                    className="sticky top-0 bg-white table-header-sticky"
+                >
+                    {headers.map((header: string, index: number) => (
+                        <th 
+                            className="border-r border-gray-200 last:border-0 p-2"
+                            onClick={() => sortRows(header, index)}
+                            key={header}
+                        >{header}</th>
                     ))}
                 </tr>
             </thead>
             <tbody>
                 {rows.map((row: string[]) => (
-                    <tr key={row.join('')}>
-                        {row.map((item: string) => (
+                    <tr 
+                        className="border-b border-gray-200"
+                        key={row.join('')}
+                    >
+                        {row.map((item: string, index) => (
                             <td
-                                key={item}
+                                className="border-r p-2 last:border-0"
+                                key={index}
                                 dangerouslySetInnerHTML={{
                                     __html: item
                                 }}
@@ -25,14 +53,6 @@ const Table = ({
                         ))}
                     </tr>
                 ))}
-                <tr className="border-b border-gray-300">
-                    <th className="border-r border-gray-300 p-2">City</th>
-                    <th className="p-2">Crime level</th>
-                </tr>
-                <tr>
-                    <td className="border-r border-gray-300 p-2">Houston</td>
-                    <td className="p-2">1.25</td>
-                </tr>
             </tbody>
         </table>
     )
