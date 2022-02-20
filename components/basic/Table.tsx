@@ -3,20 +3,21 @@ import clone from 'clone';
 
 const sortIcons = {
     asc: '↑',
-    desc: '↓'
+    desc: '↓',
+    updown: '↕'
 }
 
 const sortParsers = {
     int: (value: string) => parseInt(value.replace(/[A-Za-z%,]/g, '').replace(/−/g, '-')) || 0,
-    float: (value: string) => parseFloat(value.replace(/[A-Za-z%,]/g, '').replace(/−/g, '-')) || 0
+    float: (value: string) => parseFloat(value.replace(/[A-Za-z%,]/g, '').replace(/−/g, '-')) || 0,
+    alphabetical: true
 }
 
 const Table = ({
-    headers: rawHeaders,
+    headers: headers,
     rows: rawRows,
     headerSortKeys
 }) => {
-    const [headers, setHeaders] = useState(rawHeaders);
     const [rows, setRows] = useState(rawRows);
     const [sortBy, setSortBy] = useState({
         type: 'asc',
@@ -32,10 +33,11 @@ const Table = ({
                 const newRows = clone(oldRows);
                 // Sort rows via the sort key function as defined in the props
                 newRows.sort((a, b) => {
-                    const larger = sortBy.type === 'asc' ? b : a;
-                    const smaller = sortBy.type === 'asc' ? a : b;
-                    if (parseType === 'function') return headerSortKeys[header](larger[index]) - headerSortKeys[header](smaller[index]);
-                    return sortParsers[headerSortKeys[header]](larger[index]) - sortParsers[headerSortKeys[header]](smaller[index])
+                    const larger = sortBy.type === 'asc' ? b[index] : a[index];
+                    const smaller = sortBy.type === 'asc' ? a[index] : b[index];
+                    if (parseType === 'function') return headerSortKeys[header](larger) - headerSortKeys[header](smaller);
+                    if (headerSortKeys[header] === 'alphabetical') return larger.localeCompare(smaller);
+                    return sortParsers[headerSortKeys[header]](larger) - sortParsers[headerSortKeys[header]](smaller)
                 });
                 return newRows;
             });
@@ -59,13 +61,34 @@ const Table = ({
                 <tr
                     className="sticky top-0 bg-white table-header-sticky"
                 >
-                    {headers.map((header: string, index: number) => (
-                        <th
-                            className={`border-r border-gray-200 last:border-0 p-2 ${headerSortKeys[header] ? 'cursor-pointer': ''}`}
-                            onClick={() => sortRows(header, index)}
-                            key={header}
-                        >{header} {sortBy.index === index ? sortIcons[sortBy.type] : ''}</th>
-                    ))}
+                    {headers.map((header: string, index: number) => {
+                        const sortable = headerSortKeys[header];
+                        const active = sortBy.index === index;
+                        return (
+                            <td
+                                className={`
+                                    border-r border-gray-200 last:border-0 p-2
+                                    ${sortable ? 'cursor-pointer' : ''}
+                                `}
+                                onClick={() => sortRows(header, index)}
+                                key={header}
+                            >
+                                <div
+                                    className="flex justify-between items-center"
+                                >
+                                    <div>{header}</div>
+                                    {sortable &&
+                                        <div
+                                            className={[
+                                                'ml-2',
+                                                active ? '' : 'text-gray-400',
+                                            ].join(' ')}
+                                        >{active ? sortIcons[sortBy.type] : sortIcons.updown}</div>
+                                    }
+                                </div>
+                            </td>
+                        )
+                    })}
                 </tr>
             </thead>
             <tbody>
