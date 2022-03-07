@@ -1,6 +1,7 @@
 const axios = require('axios');
 const { parse } = require('node-html-parser');
 const AWS = require('aws-sdk');
+const { DEMOGRAPHICS_DOMAIN } = require('./secrets.json');
 const { stateToAbbrev, wikiToScoutNames } = require('./data-map');
 const { stripNewlines } = require('./helpers');
 
@@ -66,7 +67,7 @@ const getWikipediaInfo = async () => {
             const cityName = wikiToScoutNames[city] || city;
             const formattedCityName = cityName.toLowerCase().replace(/[ \–]/g, '-').replace(/[\.\']/g, '');
             const res = await axios.get(
-                `https://www.neighborhoodscout.com/${stateAbbrev}/${formattedCityName}/crime`
+                `https://www.${DEMOGRAPHICS_DOMAIN}/${stateAbbrev}/${formattedCityName}/crime`
             );
             const crimeRoot = parse(res.data);
             const violentCrimeRate = stripNewlines(crimeRoot.querySelector('.crime-data-container table tr:nth-child(2) td:nth-child(2)').innerText);
