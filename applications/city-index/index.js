@@ -61,11 +61,13 @@ const getWikipediaInfo = async () => {
         const city = row[1];
         const state = row[2];
         const stateAbbrev = stateToAbbrev[state];
+        const cityName = wikiToScoutNames[city] || city;
+        const formattedCityName = cityName.toLowerCase().replace(/[ \–]/g, '-').replace(/[\.\']/g, '');
 
+        console.log(`[${index + 1}, ${rows.length}] - Getting data for ${city}, ${state}`);
+
+        // Crime data
         try {
-            console.log(`[${index + 1}, ${rows.length}] - Getting crime data for ${city}, ${state}`);
-            const cityName = wikiToScoutNames[city] || city;
-            const formattedCityName = cityName.toLowerCase().replace(/[ \–]/g, '-').replace(/[\.\']/g, '');
             const res = await axios.get(
                 `https://www.${DEMOGRAPHICS_DOMAIN}/${stateAbbrev}/${formattedCityName}/crime`
             );
@@ -79,6 +81,18 @@ const getWikipediaInfo = async () => {
             console.error(err);
             row.push('N/A', 'N/A', 'N/A');
             console.error('Could not get crime info for', city, ',', state);
+        }
+
+        // Demographics data
+        try {
+            const res = await axios.get(
+                `https://www.${DEMOGRAPHICS_DOMAIN}/${stateAbbrev}/${formattedCityName}/demographics`
+            );
+            const demographicsRoot = parse(res.data);
+            
+        } catch (err) {
+            console.error(err);
+            console.error('Could not get demographics info for', city, ',', state);
         }
     }
     output.rows = rows;
