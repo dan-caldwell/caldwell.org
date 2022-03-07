@@ -22,7 +22,10 @@ const Index = (props) => {
                     '2010 census': 'int',
                     '2020 population density (mi)': 'int',
                     '2020 land area (mi)': 'float',
-                    'Change': 'float'
+                    'Change': 'float',
+                    'Violent crime (per 1000)': 'float',
+                    'Property crime (per 1000)': 'float',
+                    'US city crime percentile': 'int'
                 }}
             />
         </Post>
