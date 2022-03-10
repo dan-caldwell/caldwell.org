@@ -6,7 +6,7 @@ export const getStaticProps = async () => await getStaticMeta(`blog/data/city-in
 
 const Index = (props) => {
 
-    const headers = props?.importedFiles[0]?.body?.headers || [];
+    const headers = (props?.importedFiles[0]?.body?.headers || []);
     const rows = props?.importedFiles[0]?.body?.rows || [];
 
     return (
@@ -15,7 +15,7 @@ const Index = (props) => {
                 headers={headers}
                 rows={rows}
                 headerSortKeys={{
-                    '2020 rank': 'int',
+                    'Population rank': 'int',
                     'City': 'alphabetical',
                     'State': 'alphabetical',
                     '2020 census': 'int',
@@ -25,7 +25,10 @@ const Index = (props) => {
                     'Change': 'float',
                     'Violent crime (per 1000)': 'float',
                     'Property crime (per 1000)': 'float',
-                    'US city crime percentile': 'int'
+                    'US city crime percentile': 'int',
+                    'Per capita income': 'int',
+                    'Median rent': 'int',
+                    "Bachelor's degree holders": 'float'
                 }}
             />
         </Post>

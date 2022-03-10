@@ -56,7 +56,36 @@ const wikiToScoutNames = {
     'Saint Paul': 'St. Paul'
 }
 
+const wikiToCensusNames = {
+    'Nashville_TN': 'nashvilledavidsonmetropolitangovernmentbalancetennessee',
+    'Indianapolis_IN': 'indianapoliscitybalanceindiana',
+    'Honolulu_HI': 'honolulucountyhawaii',
+    'Lexington_KY': 'lexingtonfayetteurbancountykentucky',
+    'Anchorage_AK': 'anchoragemunicipalityalaska',
+    'Gilbert_AZ': 'gilberttownarizona',
+    'Boise_ID': 'boisecitycityidaho',
+    'Augusta_GA': 'augustarichmondcountyconsolidatedgovernmentbalancegeorgia',
+    'Cary_NC': 'carytownnorthcarolina',
+    'Macon_GA': 'maconbibbcountygeorgia',
+    'Lakewood_NJ': 'lakewoodtownshipoceancountynewjersey',
+    'Athens_GA': 'athensclarkecountyunifiedgovernmentbalancegeorgia',
+    'Ventura_CA': 'venturacountycalifornia',
+    'Edison_NJ': 'edisontownshipmiddlesexcountynewjersey',
+    'Davie_FL': 'davietownflorida',
+    'Woodbridge_NJ': 'woodbridgetownshipmiddlesexcountynewjersey',
+    'Clinton_MI': 'clintonchartertownshipmacombcountymichigan',
+    'Louisville_KY': 'louisvillejeffersoncountymetrogovernmentbalancekentucky'
+}
+
+const censusFactIds = {
+    per_capita_income: 'INC910219',
+    median_rent: 'HSG860219',
+    percent_with_bachelors: 'EDU685219'
+}
+
 module.exports = {
     stateToAbbrev,
-    wikiToScoutNames
+    wikiToScoutNames,
+    wikiToCensusNames,
+    censusFactIds
 }

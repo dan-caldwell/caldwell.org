@@ -8,13 +8,13 @@ const sortIcons = {
 }
 
 const sortParsers = {
-    int: (value: string) => parseInt(value.replace(/[A-Za-z%,]/g, '').replace(/−/g, '-')) || 0,
-    float: (value: string) => parseFloat(value.replace(/[A-Za-z%,]/g, '').replace(/−/g, '-')) || 0,
+    int: (value: string) => parseInt(value.replace(/[A-Za-z%,$]/g, '').replace(/−/g, '-')) || 0,
+    float: (value: string) => parseFloat(value.replace(/[A-Za-z%,$]/g, '').replace(/−/g, '-')) || 0,
     alphabetical: true
 }
 
 const Table = ({
-    headers: headers,
+    headers,
     rows: rawRows,
     headerSortKeys
 }) => {
@@ -61,16 +61,18 @@ const Table = ({
                 <tr
                     className="sticky top-0 bg-white table-header-sticky"
                 >
-                    {headers.map((header: string, index: number) => {
+                    {['Rank', ...headers].map((header: string, index: number) => {
+                        // We added 'Rank' to the headers, so subtract that
+                        const realIndex = index - 1;
                         const sortable = headerSortKeys[header];
-                        const active = sortBy.index === index;
+                        const active = sortBy.index === realIndex;
                         return (
                             <td
                                 className={`
                                     border-r border-gray-200 last:border-0 p-2
                                     ${sortable ? 'cursor-pointer' : ''}
                                 `}
-                                onClick={() => sortRows(header, index)}
+                                onClick={() => sortRows(header, realIndex)}
                                 key={header}
                             >
                                 <div
@@ -92,11 +94,17 @@ const Table = ({
                 </tr>
             </thead>
             <tbody>
-                {rows.map((row: string[]) => (
+                {rows.map((row: string[], rowIndex: number) => (
                     <tr
-                        className="border-b border-gray-200"
+                        className={[
+                            "border-b border-gray-200",
+                            rowIndex % 2 !== 0 ? 'bg-gray-50' : ''
+                        ].join(' ')}
                         key={row.join('')}
                     >
+                        <td
+                            className="border-r p-2 last:border-0"
+                        >{rowIndex + 1}</td>
                         {row.map((item: string, index) => (
                             <td
                                 className="border-r p-2 last:border-0"

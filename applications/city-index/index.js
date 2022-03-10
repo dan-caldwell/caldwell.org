@@ -1,9 +1,10 @@
 const axios = require('axios');
 const { parse } = require('node-html-parser');
 const AWS = require('aws-sdk');
-const { DEMOGRAPHICS_DOMAIN } = require('./secrets.json');
-const { stateToAbbrev, wikiToScoutNames } = require('./data-map');
-const { stripNewlines } = require('./helpers');
+const { DEMOGRAPHICS_DOMAIN, CRIME_DOMAIN } = require('./secrets.json');
+const { stateToAbbrev, wikiToScoutNames, wikiToCensusNames, censusFactIds } = require('./data-map');
+const { stripNewlines, getValueByCensusId } = require('./helpers');
+const chalk = require('ansi-colors');
 
 const s3 = new AWS.S3({
     region: 'us-east-1'
@@ -25,7 +26,7 @@ const getWikipediaInfo = async () => {
     } = wikiRes;
     const output = {
         headers: [
-            '2020 rank',
+            'Population rank',
             'City',
             'State',
             '2020 census',
@@ -38,7 +39,10 @@ const getWikipediaInfo = async () => {
             //'Location',
             'Violent crime (per 1000)',
             'Property crime (per 1000)',
-            'US city crime percentile'
+            'US city crime percentile',
+            'Per capita income',
+            'Median rent',
+            `Bachelor's degree holders`
         ],
         rows: []
     };
@@ -63,36 +67,40 @@ const getWikipediaInfo = async () => {
         const stateAbbrev = stateToAbbrev[state];
         const cityName = wikiToScoutNames[city] || city;
         const formattedCityName = cityName.toLowerCase().replace(/[ \–]/g, '-').replace(/[\.\']/g, '');
-
+        const formattedCityForDemographics = 
+            wikiToCensusNames[`${city}_${stateAbbrev.toUpperCase()}`] || (formattedCityName.replace(/-/g, '') + 'city' + state.toLowerCase()).replace(/ /g, '');
         console.log(`[${index + 1}, ${rows.length}] - Getting data for ${city}, ${state}`);
 
         // Crime data
         try {
             const res = await axios.get(
-                `https://www.${DEMOGRAPHICS_DOMAIN}/${stateAbbrev}/${formattedCityName}/crime`
+                `https://www.${CRIME_DOMAIN}/${stateAbbrev}/${formattedCityName}/crime`
             );
             const crimeRoot = parse(res.data);
-            const violentCrimeRate = stripNewlines(crimeRoot.querySelector('.crime-data-container table tr:nth-child(2) td:nth-child(2)').innerText);
-            const propertyCrimeRate = stripNewlines(crimeRoot.querySelector('.crime-data-container table tr:nth-child(2) td:nth-child(3)').innerText);
-            const crimeIndex = stripNewlines(crimeRoot.querySelector('.crime-data-container .score').innerText);
+            const violentCrimeRate = stripNewlines(crimeRoot.querySelector('.crime-data-container table tr:nth-child(2) td:nth-child(2)')?.innerText) || 'N/A';
+            const propertyCrimeRate = stripNewlines(crimeRoot.querySelector('.crime-data-container table tr:nth-child(2) td:nth-child(3)')?.innerText) || 'N/A';
+            const crimeIndex = stripNewlines(crimeRoot.querySelector('.crime-data-container .score')?.innerText) || 'N/A';
             // Add the crime data to the row
             row.push(violentCrimeRate, propertyCrimeRate, crimeIndex);
         } catch (err) {
             console.error(err);
             row.push('N/A', 'N/A', 'N/A');
-            console.error('Could not get crime info for', city, ',', state);
+            console.error(chalk.redBright(`Could not get crime info for ${city}, ${state}`));
         }
 
         // Demographics data
         try {
             const res = await axios.get(
-                `https://www.${DEMOGRAPHICS_DOMAIN}/${stateAbbrev}/${formattedCityName}/demographics`
+                `https://www.${DEMOGRAPHICS_DOMAIN}/quickfacts/fact/table/${formattedCityForDemographics}?ajax=true`
             );
             const demographicsRoot = parse(res.data);
-            
+            const perCapitaIncome = getValueByCensusId(demographicsRoot, censusFactIds.per_capita_income);
+            const medianRent = getValueByCensusId(demographicsRoot, censusFactIds.median_rent);
+            const percentWithBachelors = getValueByCensusId(demographicsRoot, censusFactIds.percent_with_bachelors);
+            row.push(perCapitaIncome, medianRent, percentWithBachelors);
         } catch (err) {
-            console.error(err);
-            console.error('Could not get demographics info for', city, ',', state);
+            console.error(chalk.redBright(`Could not get demographics info for ${city}, ${state}`));
+            row.push('N/A', 'N/A', 'N/A');
         }
     }
     output.rows = rows;
