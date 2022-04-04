@@ -17,7 +17,7 @@ export default function IndexPage() {
             <AppHead title="Dan Caldwell - Software Engineer" overrideTitle />
             <ContentContainer className="items-center w-container">
                 <h1 className="text-3xl font-bold leading-9 pb-8 mb-0 leading-none">
-                    Hello — my name is Dan Caldwell. I’m a software engineer. This is a selection of my personal and professional work.
+                    Hello — my name is Dan Caldwell. I’m a web developer. This is a selection of my personal and professional work.
                 </h1>
                 <div className="w-full overflow-hidden">
                     <img className="w-full h-full object-contain" src="https://s3.amazonaws.com/caldwell.org/images/projects/art/art-and-illustration/large-doodle-1400x1070-s0.7-q90.jpg" alt="large doodle" loading="lazy" />
