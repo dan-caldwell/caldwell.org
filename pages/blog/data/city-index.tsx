@@ -28,7 +28,8 @@ const Index = (props) => {
                     'US city crime percentile': 'int',
                     'Per capita income': 'int',
                     'Median rent': 'int',
-                    "Bachelor's degree holders": 'float'
+                    "Bachelor's degree holders": 'float',
+                    'Avg. commute time (mins)': 'float'
                 }}
             />
         </Post>
