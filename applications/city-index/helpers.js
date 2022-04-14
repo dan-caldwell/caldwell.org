@@ -4,9 +4,9 @@ const getValueByCensusId = (document, censusId) => cleanSelection(document, cens
 
 // Create a cleaned text selection from a selector
 const cleanSelection = (document, selector) => {
-    return stripNewlines(
+    return (stripNewlines(
         document.querySelector(selector)?.innerText
-    ).replace(/&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-fA-F]{1,6});/ig, '') || 'N/A';
+    ) || 'N/A').replace(/&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-fA-F]{1,6});/ig, '');
 }
 
 const createHeadersFromTableContent = tableContent => Object.values(tableContent).flat().map(item => item.header);
