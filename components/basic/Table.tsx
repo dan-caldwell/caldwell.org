@@ -24,35 +24,45 @@ const Table = ({
         index: 0
     });
 
-    const sortRows = (header: string, index: number) => {
-
-        if (headerSortKeys[header]) {
-            const parseType = typeof headerSortKeys[header];
-            if (parseType !== 'function' && !sortParsers[headerSortKeys[header]]) return;
-            setRows((oldRows) => {
-                const newRows = clone(oldRows);
-                // Sort rows via the sort key function as defined in the props
-                newRows.sort((a, b) => {
-                    const larger = sortBy.type === 'asc' ? b[index] : a[index];
-                    const smaller = sortBy.type === 'asc' ? a[index] : b[index];
-                    if (parseType === 'function') return headerSortKeys[header](larger) - headerSortKeys[header](smaller);
-                    if (headerSortKeys[header] === 'alphabetical') return larger.localeCompare(smaller);
-                    return sortParsers[headerSortKeys[header]](larger) - sortParsers[headerSortKeys[header]](smaller)
-                });
-                return newRows;
+    const sortByType = ({
+        header,
+        index,
+        sortType = 'float',
+    }) => {
+        const sortKey = headerSortKeys[header] || sortType;
+        const parseType = typeof sortKey;
+        if (parseType !== 'function' && !sortParsers[sortKey]) return;
+        setRows((oldRows) => {
+            const newRows = clone(oldRows);
+            // Sort rows via the sort key function as defined in the props
+            newRows.sort((a, b) => {
+                const larger = sortBy.type === 'asc' ? b[index] : a[index];
+                const smaller = sortBy.type === 'asc' ? a[index] : b[index];
+                if (parseType === 'function') return sortKey(larger) - sortKey(smaller);
+                if (sortKey === 'alphabetical') return larger.localeCompare(smaller);
+                return sortParsers[sortKey](larger) - sortParsers[sortKey](smaller)
             });
-            // Set the sorted state
-            setSortBy(sortBy.type === 'asc' ?
-                {
-                    index,
-                    type: 'desc'
-                } :
-                {
-                    index,
-                    type: 'asc'
-                }
-            );
-        }
+            return newRows;
+        });
+        // Set the sorted state
+        setSortBy(sortBy.type === 'asc' ?
+            {
+                index,
+                type: 'desc'
+            } :
+            {
+                index,
+                type: 'asc'
+            }
+        );
+    }
+
+    const sortRows = (header: string, index: number) => {
+        if (headerSortKeys === 'none') return;
+        sortByType({
+            header,
+            index
+        });
     }
 
     return (
@@ -64,7 +74,7 @@ const Table = ({
                     {['Rank', ...headers].map((header: string, index: number) => {
                         // We added 'Rank' to the headers, so subtract that
                         const realIndex = index - 1;
-                        const sortable = headerSortKeys[header];
+                        const sortable = headerSortKeys[header] !== 'none';
                         const active = sortBy.index === realIndex;
                         return (
                             <td

@@ -6,7 +6,7 @@ const getValueByCensusId = (document, censusId) => cleanSelection(document, cens
 const cleanSelection = (document, selector) => {
     return stripNewlines(
         document.querySelector(selector)?.innerText
-    ) || 'N/A';
+    ).replace(/&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-fA-F]{1,6});/ig, '') || 'N/A';
 }
 
 const createHeadersFromTableContent = tableContent => Object.values(tableContent).flat().map(item => item.header);

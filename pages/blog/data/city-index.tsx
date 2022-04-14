@@ -15,21 +15,16 @@ const Index = (props) => {
                 headers={headers}
                 rows={rows}
                 headerSortKeys={{
+                    'Rank': 'none',
                     'Population rank': 'int',
                     'City': 'alphabetical',
                     'State': 'alphabetical',
                     '2020 census': 'int',
                     '2010 census': 'int',
                     '2020 population density (mi)': 'int',
-                    '2020 land area (mi)': 'float',
-                    'Change': 'float',
-                    'Violent crime (per 1000)': 'float',
-                    'Property crime (per 1000)': 'float',
                     'US city crime percentile': 'int',
                     'Per capita income': 'int',
                     'Median rent': 'int',
-                    "Bachelor's degree holders": 'float',
-                    'Avg. commute time (mins)': 'float'
                 }}
             />
         </Post>

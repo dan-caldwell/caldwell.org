@@ -59,8 +59,32 @@ const tableContent = {
             selector: censusSelector('LFE305220')
         },
         {
-            header: 'Percent in poverty',
-            selector: censusSelector('IPE120220')
+            header: 'White',
+            selector: censusSelector('RHI825220')
+        },
+        {
+            header: 'Black',
+            selector: censusSelector('RHI225220')
+        },
+        {
+            header: 'Asian',
+            selector: censusSelector('RHI425220')
+        },
+        {
+            header: 'Latino',
+            selector: censusSelector('RHI725220')
+        },
+        {
+            header: 'American Indian',
+            selector: censusSelector('RHI325220')
+        },
+        {
+            header: 'Pacific Islander',
+            selector: censusSelector('RHI525220')
+        },
+        {
+            header: '2 or more races',
+            selector: censusSelector('RHI625220')
         }
     ]
 }
