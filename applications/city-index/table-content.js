@@ -63,6 +63,14 @@ const tableContent = {
             selector: censusSelector('RTN131212')
         },
         {
+            header: 'Under 18 years old',
+            selector: censusSelector('AGE295220')
+        },
+        {
+            header: 'Over 65 years old',
+            selector: censusSelector('AGE775220')
+        },
+        {
             header: 'White',
             selector: censusSelector('RHI825220')
         },
