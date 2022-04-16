@@ -3,13 +3,13 @@ const censusSelector = censusId => `tr[data-mnemonic="${censusId}"] td[data-valu
 const tableContent = {
     wikipedia: [
         {
-            header: 'Population rank',
-        },
-        {
             header: 'City',
         },
         {
             header: 'State',
+        },
+        {
+            header: 'Population rank',
         },
         {
             header: '2020 census',
@@ -57,6 +57,10 @@ const tableContent = {
         {
             header: 'Avg. commute time (mins)',
             selector: censusSelector('LFE305220')
+        },
+        {
+            header: 'Retail sales per capita',
+            selector: censusSelector('RTN131212')
         },
         {
             header: 'White',

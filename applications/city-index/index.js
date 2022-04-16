@@ -35,25 +35,32 @@ const getWikipediaInfo = async () => {
     const root = parse(html);
     const table = root.querySelector('table.sortable');
     const rows = table.querySelectorAll('tbody tr')
-        .map(row =>
-            row.childNodes
+        .map(row => {
+            const children = row.childNodes
                 .map(child =>
                     stripNewlines(child.innerText)
                         .replace(/&#91;.*?&#93;/g, '') // Replace the brackets
                 )
                 .filter(child => child)
-                .filter((child, index) => !excludedIndexes.includes(index))
-        ).slice(1);
+                .filter((child, index) => !excludedIndexes.includes(index));
+            // Move "Population rank" after "City" and "State"
+            // First move "City" into place
+            [children[0], children[1]] = [children[1], children[0]];
+            // Move "State" into place
+            [children[1], children[2]] = [children[2], children[1]];
+            return children;
+        })
+        .slice(1);
 
     for (const [index, row] of rows.entries()) {
-        const city = row[1];
-        const state = row[2];
+        const city = row[0];
+        const state = row[1];
         const stateAbbrev = stateToAbbrev[state];
         const cityName = wikiToScoutNames[city] || city;
         const formattedCityName = cityName.toLowerCase().replace(/[ \–]/g, '-').replace(/[\.\']/g, '');
         const formattedCityForDemographics =
             wikiToCensusNames[`${city}_${stateAbbrev.toUpperCase()}`] || (formattedCityName.replace(/-/g, '') + 'city' + state.toLowerCase()).replace(/ /g, '');
-        
+
         console.log(chalk.blueBright(`[${index + 1}, ${rows.length}] - Getting data for ${city}, ${state}`));
 
         // Crime data
