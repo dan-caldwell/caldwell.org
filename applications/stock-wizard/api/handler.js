@@ -31,65 +31,68 @@ module.exports.get_image = async event => {
 }
 
 module.exports.create_stock_list = async event => {
-    try {
+    const etfList = ['spy', 'xlk'];
 
-        const name = 'spy';
+    for (const name of etfList) {
 
-        const excelETFBuffer = await DataIO.saveETFHoldingsToS3({
-            name
-        });
-        const holdingsObject = DataTransformer.convertExceltoObject({
-            buffer: excelETFBuffer
-        });
+        try {
 
-        const filteredHoldings = holdingsObject.holdings.filter(item => item.Ticker && item.Ticker !== "CASH_USD");
+            const excelETFBuffer = await DataIO.saveETFHoldingsToS3({
+                name
+            });
+            const holdingsObject = DataTransformer.convertExceltoObject({
+                buffer: excelETFBuffer
+            });
 
-        // Save the holdings
-        await DataIO.putJSONObject({
-            data: filteredHoldings,
-            name,
-            folder: `etf_holdings_json`
-        });
+            const filteredHoldings = holdingsObject.holdings.filter(item => item.Ticker && item.Ticker !== "CASH_USD");
 
-        // Get the random stock pick
-        const randomPick = Random.getRandomPickFromHoldings({
-            holdings: filteredHoldings
-        });
+            // Save the holdings
+            await DataIO.putJSONObject({
+                data: filteredHoldings,
+                name,
+                folder: `etf_holdings_json`
+            });
 
-        // Save the random stock pick
-        await Random.saveRandomPickToS3({
-            pick: randomPick
-        });
+            // Get the random stock pick
+            const randomPick = Random.getRandomPickFromHoldings({
+                holdings: filteredHoldings
+            });
 
-        // Scrape list of holdings and save
-        const totalData = await TickerData.saveIndividualTickerData({
-            holdings: filteredHoldings,
-            etfName: name
-        });
+            // Save the random stock pick
+            await Random.saveRandomPickToS3({
+                pick: randomPick
+            });
 
-        // Save the averages
-        await TickerData.saveAverages({
-            data: totalData,
-            etfName: name
-        });
+            // Scrape list of holdings and save
+            const totalData = await TickerData.saveIndividualTickerData({
+                holdings: filteredHoldings,
+                etfName: name
+            });
 
-        console.log(`Successfully created stock list data for ${randomPick.date}`);
+            // Save the averages
+            await TickerData.saveAverages({
+                data: totalData,
+                etfName: name
+            });
 
-        return {
-            statusCode: 200,
-            body: 'Success'
+            console.log(`Successfully created stock list data for ${randomPick.date}`);
+
+            return {
+                statusCode: 200,
+                body: 'Success'
+            }
+
+        } catch (err) {
+            console.error(err);
+
+            return {
+                statusCode: err.status || 400,
+                body: JSON.stringify({
+                    message: err.message || 'Bad Request',
+                    statusCode: err.status || 400
+                })
+            }
+
         }
-
-    } catch (err) {
-        console.error(err);
-
-        return {
-            statusCode: err.status || 400,
-            body: JSON.stringify({
-                message: err.message || 'Bad Request',
-                statusCode: err.status || 400
-            })
-        }
-
     }
 }
