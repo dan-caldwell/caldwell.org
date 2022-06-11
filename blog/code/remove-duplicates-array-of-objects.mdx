@@ -1,0 +1,38 @@
+---
+title: 'How to remove duplicates from an array of objects in Javascript'
+date: 'June 11, 2022'
+excerpt: 'The best way to remove duplicates'
+thumbnail: 'https://s3.amazonaws.com/caldwell.org/images/blog/code/remove-duplicates-array-of-objects/thumbnail.jpg'
+layout: 'scroll'
+---
+
+To remove duplicates from an array of objects based on a key in the array, you can do this:
+
+```
+const arr = [
+  {
+    id: 'abc123',
+    hello: 'world',
+  },
+  {
+    id: 'abc123',
+    hello: 'world',
+  }
+];
+
+const duplicatesRemoved = Array.from(
+  new Map(arr.map(item => [item.id, item])).values()
+);
+```
+
+Using a Map is 2x faster than using an Object. You should replace item.id with the key you want to use.
+
+In function form:
+
+```
+const removeDuplicates = (arr = [], key = null) => Array.from(
+  new Map(arr.map(item => [item[key], item])).values()
+);
+```
+
+If you pass an invalid key, your array will be 1 in length, since the Map will use `undefined` as the key.

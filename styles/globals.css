@@ -24,27 +24,31 @@
     }
 
     ul {
-        @apply list-inside list-disc text-lg mb-4;
+        @apply list-inside list-disc text-lg;
     }
 
     ol {
-        @apply list-decimal list-inside text-lg mb-4;
+        @apply list-decimal list-inside text-lg;
     }
 
     p {
-        @apply mb-4 text-lg;
+        @apply text-lg;
     }
 
     h2 {
-        @apply text-2xl font-bold mb-4;
+        @apply text-2xl font-bold;
     }
 
     h3 {
-        @apply text-xl font-bold mb-4;
+        @apply text-xl font-bold;
     }
 
     h4 {
-        @apply text-xl mb-4 underline;
+        @apply text-xl underline;
+    }
+
+    pre {
+        @apply bg-white overflow-scroll p-2;
     }
 
     h1:last-child, h2:last-child, h3:last-child, h4:last-child, p:last-child, ul:last-child {
@@ -74,6 +78,14 @@
     input[type=number] {
     -moz-appearance: textfield;
     }
+}
+
+.ContentContainer > * {
+    @apply mb-4;
+}
+
+.ContentContainer > *:last-child {
+    @apply mb-0;
 }
 
 @layer components {
