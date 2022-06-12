@@ -1,0 +1,66 @@
+---
+title: 'How to pipe an array of functions in Javascript'
+date: 'June 12, 2022'
+excerpt: 'The best way to pipe an array of functions in Javascript'
+thumbnail: 'https://s3.amazonaws.com/caldwell.org/images/blog/code/pipe-array-of-functions/thumbnail.jpg'
+layout: 'scroll'
+---
+
+Note: this is a mix of object oriented programming and functional programming, it's not purely one or the other.
+
+If you want to pipe an array of functions in Javascript, you can do so with this function:
+
+```
+const pipe = fns => 
+  async params => {
+    for (const [key, currentFunction] of fns) {
+      try {
+        const output = await currentFunction(params);
+        // Stop execution if we return an output
+        if (output) return output;
+      } catch (err) {
+        console.error('Error at step', key);
+        console.error(err);
+        return params;
+      }
+    }
+    return params;
+  }
+```
+
+To use the function, you will need an array containing a tuple with a string description and an async function, like this:
+
+```
+const steps = [
+  [
+    'Split the string',
+    async params => {
+      params.string = params.string.split('');
+    }
+  ],
+
+  [
+    'Reverse the string',
+    async params => {
+      params.string = params.string.reverse();
+    }
+  ],
+
+  [
+    'Join the string',
+    async params => {
+      return params.string.join('');
+    }
+  ],
+];
+```
+
+And then you can call the pipe function like so:
+
+```
+const output = await pipe(steps)({ string: 'Hello world' });
+```
+
+Of course, this pipe function is overkill for reversing a string.
+
+In reality, this function is good if you have complex logic and params is an object to be mutated. The reason for using a tuple is to make debugging when using a compiler a lot easier, since it's easier to identify where the error occurred. 
